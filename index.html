@@ -1,6 +1,9 @@
-exports.handler = async function(event, context) {
+import fetch from "node-fetch";
+
+export async function handler(event, context) {
   try {
     const { question } = JSON.parse(event.body);
+
     const apiKey = process.env.GROQ_API_KEY;
 
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -12,7 +15,7 @@ exports.handler = async function(event, context) {
       body: JSON.stringify({
         model: "llama3-8b-8192",
         messages: [
-          { role: "system", content: "أنت مساعد ذكي داخل موقع مخطوطات الجن، تجيب بأسلوب غامض ومناسب لقصص الرعب." },
+          { role: "system", content: "أنت مساعد ذكي داخل موقع مخطوطات الجن." },
           { role: "user", content: question }
         ]
       })
@@ -28,7 +31,7 @@ exports.handler = async function(event, context) {
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ answer: "حدث خطأ في الاتصال بخوادم الجن... حاول مرة أخرى." })
+      body: JSON.stringify({ answer: "حدث خطأ في الاتصال بالخادم." })
     };
   }
-};
+}
