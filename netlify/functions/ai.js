@@ -52,7 +52,7 @@ exports.handler = async (event) => {
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'llama3-8b-8192',
+        model: 'llama3-70b-8192',   // ← ← ← الموديل الجديد الشغّال
         max_tokens: 500,
         temperature: 0.7,
         messages: [
