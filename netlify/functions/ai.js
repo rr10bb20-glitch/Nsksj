@@ -30,6 +30,14 @@ exports.handler = async (event) => {
 
     const apiKey = process.env.GROQ_API_KEY;
 
+    // 🟢 الإضافة الجديدة هنا: لكشف المفتاح في السجلات (Logs) 🟢
+    if (apiKey) {
+      console.log("🔑 بداية المفتاح المقروء في السيرفر هي:", apiKey.substring(0, 4));
+    } else {
+      console.log("🚨 الخادم يقول أن المفتاح فارغ تماماً!");
+    }
+    // ---------------------------------------------------------
+
     if (!apiKey) {
       return {
         statusCode: 200,
