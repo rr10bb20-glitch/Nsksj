@@ -1,3 +1,7 @@
+// إضافة fetch (مهم جداً لعمل Netlify Functions)
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
+
 // netlify/functions/ai.js
 // يستخدم Groq API (مجاني وسريع جداً)
 
@@ -30,13 +34,12 @@ exports.handler = async (event) => {
 
     const apiKey = process.env.GROQ_API_KEY;
 
-    // 🟢 الإضافة الجديدة هنا: لكشف المفتاح في السجلات (Logs) 🟢
+    // طباعة بداية المفتاح في السجلات
     if (apiKey) {
       console.log("🔑 بداية المفتاح المقروء في السيرفر هي:", apiKey.substring(0, 4));
     } else {
       console.log("🚨 الخادم يقول أن المفتاح فارغ تماماً!");
     }
-    // ---------------------------------------------------------
 
     if (!apiKey) {
       return {
