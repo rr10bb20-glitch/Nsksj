@@ -1,7 +1,3 @@
-// إضافة fetch (مهم جداً لعمل Netlify Functions)
-const fetch = (...args) =>
-  import("node-fetch").then(({ default: fetch }) => fetch(...args));
-
 // netlify/functions/ai.js
 // يستخدم Groq API (مجاني وسريع جداً)
 
