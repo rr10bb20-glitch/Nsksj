@@ -30,7 +30,6 @@ exports.handler = async (event) => {
 
     const apiKey = process.env.GROQ_API_KEY;
 
-    // طباعة بداية المفتاح في السجلات
     if (apiKey) {
       console.log("🔑 بداية المفتاح المقروء في السيرفر هي:", apiKey.substring(0, 4));
     } else {
@@ -52,7 +51,7 @@ exports.handler = async (event) => {
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'llama3-70b-8192',   // ← ← ← الموديل الجديد الشغّال
+        model: 'llama3-70b-8192',
         max_tokens: 500,
         temperature: 0.7,
         messages: [
