@@ -12,47 +12,34 @@ export default async function handler(req, res) {
       return res.status(200).json({ answer: '✍️ اكتب سؤالك.' });
     }
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
-    
-    // فحص 1: هل المفتاح موجود؟
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
-      return res.status(200).json({ answer: '❌ مفتاح OpenRouter غير موجود في Vercel Environment Variables' });
+      return res.status(200).json({ answer: '❌ مفتاح Groq غير موجود' });
     }
 
-    // فحص 2: هل المفتاح يبدأ بالشكل الصحيح؟
-    if (!apiKey.startsWith('sk-or-v1-')) {
-      return res.status(200).json({ answer: '⚠️ المفتاح موجود لكن صيغته غير صحيحة. يجب أن يبدأ بـ sk-or-v1-' });
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'mixtral-8x7b-32768',
+        messages: [{ role: 'user', content: question }],
+        max_tokens: 1000,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      return res.status(200).json({ answer: `خطأ ${response.status}` });
     }
 
-    // فحص 3: محاولة الاتصال بـ OpenRouter
-    try {
-      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'nousresearch/hermes-3-llama-3.1-8b:free',
-          messages: [{ role: 'user', content: question }],
-          max_tokens: 500,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        return res.status(200).json({ answer: `⚠️ خطأ من OpenRouter (${response.status}): ${errorText.substring(0, 200)}` });
-      }
-
-      const data = await response.json();
-      const answer = data.choices?.[0]?.message?.content || 'لم يتلق رداً';
-      return res.status(200).json({ answer: answer });
-
-    } catch (fetchError) {
-      return res.status(200).json({ answer: `❌ فشل الاتصال بـ OpenRouter: ${fetchError.message}` });
-    }
+    const data = await response.json();
+    const answer = data.choices?.[0]?.message?.content || 'لم يتلق رداً';
+    return res.status(200).json({ answer: answer });
 
   } catch (err) {
-    return res.status(200).json({ answer: '❌ خطأ عام: ' + err.message });
+    return res.status(200).json({ answer: 'خطأ: ' + err.message });
   }
 }
