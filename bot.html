@@ -2,117 +2,249 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🤖 البوت الشخصي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>🤖 البوت الشخصي - مخطوطات الجن</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: #0a0306;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #e8dac8;
+      background: linear-gradient(135deg, #0a0306 0%, #1a0810 100%);
+      font-family: 'Segoe UI', 'Amiri', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 16px;
     }
-    .chat-card {
+
+    /* الحاوية الرئيسية */
+    .chat-app {
       width: 100%;
       max-width: 550px;
-      background: rgba(20, 8, 12, 0.96);
-      border-radius: 28px;
-      border: 1px solid #3d1525;
+      background: rgba(18, 5, 8, 0.92);
+      backdrop-filter: blur(10px);
+      border-radius: 32px;
+      border: 1px solid rgba(61, 21, 37, 0.5);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(212, 32, 80, 0.1);
       overflow: hidden;
     }
+
+    /* رأس الصفحة */
     .chat-header {
       background: linear-gradient(135deg, #1a0810, #0d0308);
-      padding: 18px 20px;
-      border-bottom: 1px solid #3d1525;
+      padding: 20px;
       text-align: center;
+      border-bottom: 1px solid #3d1525;
     }
+
     .chat-header h1 {
-      font-size: 24px;
+      font-size: 26px;
       color: #ff3065;
+      text-shadow: 0 0 15px rgba(255, 48, 101, 0.3);
+      letter-spacing: 1px;
     }
+
     .chat-header p {
       font-size: 12px;
       color: #907868;
+      margin-top: 6px;
     }
+
+    .chat-header .badge {
+      display: inline-block;
+      background: rgba(212, 32, 80, 0.2);
+      border: 1px solid #d42050;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 10px;
+      margin-top: 8px;
+      color: #ff3065;
+    }
+
+    /* منطقة الرسائل */
     .chat-messages {
-      height: 420px;
+      height: 460px;
       overflow-y: auto;
       padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
+      background: rgba(10, 3, 6, 0.4);
     }
+
+    /* تنسيق الرسائل */
     .message {
-      padding: 10px 14px;
-      border-radius: 18px;
       max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 20px;
       word-wrap: break-word;
       line-height: 1.5;
       font-size: 15px;
+      animation: fadeIn 0.3s ease;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .user-message {
-      background: linear-gradient(135deg, #d42050, #b01040);
+      background: linear-gradient(135deg, #d42050, #a01040);
       color: white;
       align-self: flex-end;
+      border-bottom-right-radius: 6px;
+      box-shadow: 0 2px 8px rgba(212, 32, 80, 0.3);
     }
+
     .bot-message {
-      background: rgba(40, 15, 25, 0.8);
+      background: rgba(40, 15, 25, 0.85);
       border: 1px solid #3d1525;
+      color: #f0d8c8;
       align-self: flex-start;
+      border-bottom-left-radius: 6px;
     }
+
+    /* زر نسخ الرسالة */
+    .copy-btn {
+      background: none;
+      border: none;
+      color: #907868;
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      transition: 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ff3065;
+    }
+
+    /* منطقة الإدخال */
     .input-area {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       padding: 16px;
       background: #0d0308;
       border-top: 1px solid #3d1525;
     }
+
     .input-area input {
       flex: 1;
       background: #1a0810;
       border: 1px solid #3d1525;
       color: #e8dac8;
-      padding: 12px 16px;
+      padding: 14px 18px;
       border-radius: 40px;
       font-size: 15px;
       outline: none;
+      transition: 0.3s;
     }
+
     .input-area input:focus {
       border-color: #d42050;
+      box-shadow: 0 0 0 2px rgba(212, 32, 80, 0.2);
     }
+
     .input-area button {
       background: #d42050;
       color: white;
       border: none;
-      padding: 0 24px;
+      padding: 0 28px;
       border-radius: 40px;
       font-weight: bold;
       cursor: pointer;
+      transition: 0.3s;
+      font-size: 14px;
     }
+
     .input-area button:hover {
       background: #ff3065;
+      transform: scale(0.96);
+    }
+
+    /* مؤشر الكتابة */
+    .typing-indicator {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 10px 16px;
+      background: rgba(40, 15, 25, 0.6);
+      border-radius: 20px;
+      width: fit-content;
+      border: 1px solid #3d1525;
+    }
+
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: #ff3065;
+      border-radius: 50%;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-indicator span:nth-child(1) { animation-delay: 0s; }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-10px); opacity: 1; }
+    }
+
+    /* شريط التمرير */
+    .chat-messages::-webkit-scrollbar {
+      width: 5px;
+    }
+    .chat-messages::-webkit-scrollbar-track {
+      background: #1a0810;
+    }
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: #d42050;
+      border-radius: 10px;
+    }
+
+    /* تذييل */
+    .footer-note {
+      text-align: center;
+      font-size: 10px;
+      color: #604840;
+      padding: 12px;
+      background: #0a0306;
+      border-top: 1px solid #1f0f15;
     }
   </style>
 </head>
 <body>
 
-<div class="chat-card">
+<div class="chat-app">
   <div class="chat-header">
     <h1>🤖 البوت الشخصي</h1>
-    <p>🔓 بدون قيود | بدون رقابة</p>
+    <p>✍️ اسأل أي شيء | أكواد | برمجة | بدون قيود</p>
+    <div class="badge">🔓 غير محدود | 🛡️ خاص بك</div>
   </div>
 
   <div class="chat-messages" id="chatMessages">
-    <div class="message bot-message">👻 مرحباً! أنا البوت الشخصي. اسألني أي شيء بدون قيود.</div>
+    <div class="message bot-message">
+      👻 مرحباً! أنا البوت الشخصي. اسألني أي شيء (أكواد، برمجة، اختبارات أمنية، استفسارات تقنية) بدون قيود.
+    </div>
   </div>
 
   <div class="input-area">
-    <input type="text" id="questionInput" placeholder="اكتب سؤالك هنا...">
-    <button id="sendBtn">إرسال</button>
+    <input type="text" id="questionInput" placeholder="اكتب سؤالك هنا..." autocomplete="off">
+    <button id="sendBtn">إرسال 📨</button>
+  </div>
+  <div class="footer-note">
+    ⚡ الردود فورية | يمكنك نسخ أي رسالة
   </div>
 </div>
 
@@ -121,19 +253,36 @@
   const questionInput = document.getElementById('questionInput');
   const sendBtn = document.getElementById('sendBtn');
 
+  // إضافة رسالة مع زر نسخ
   function addMessage(text, isUser) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-    messageDiv.textContent = text;
+    
+    const textSpan = document.createElement('div');
+    textSpan.textContent = text;
+    messageDiv.appendChild(textSpan);
+    
+    // إضافة زر نسخ للرسائل (حتى للمستخدم)
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-btn';
+    copyBtn.innerHTML = '📋 نسخ';
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(text);
+      copyBtn.innerHTML = '✅ تم النسخ';
+      setTimeout(() => { copyBtn.innerHTML = '📋 نسخ'; }, 2000);
+    };
+    messageDiv.appendChild(copyBtn);
+    
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
+  // مؤشر الكتابة
   function showTyping() {
     const typingDiv = document.createElement('div');
-    typingDiv.className = 'message bot-message';
+    typingDiv.className = 'typing-indicator';
     typingDiv.id = 'typingIndicator';
-    typingDiv.textContent = '🤔 جاري التفكير...';
+    typingDiv.innerHTML = '<span></span><span></span><span></span>';
     chatMessages.appendChild(typingDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
@@ -143,6 +292,7 @@
     if (typing) typing.remove();
   }
 
+  // الاتصال بالبوت
   async function askBot(question) {
     try {
       const response = await fetch('/api/bot', {
@@ -150,13 +300,17 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: question })
       });
+      
+      if (!response.ok) throw new Error('خطأ في الخادم');
       const data = await response.json();
       return data.answer || '⚠️ لم أتلقَ رداً.';
     } catch (error) {
-      return '❌ خطأ في الاتصال.';
+      console.error(error);
+      return '❌ حدث خطأ في الاتصال. تأكد من تشغيل البوت.';
     }
   }
 
+  // معالج الإرسال
   async function handleSend() {
     const question = questionInput.value.trim();
     if (!question) return;
@@ -170,6 +324,7 @@
     addMessage(reply, false);
   }
 
+  // الأحداث
   sendBtn.addEventListener('click', handleSend);
   questionInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleSend();
