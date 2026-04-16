@@ -3,17 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🤖 البوت الشخصي - مخطوطات الجن</title>
+  <title>🤖 البوت الشخصي</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: #0a0306;
-      font-family: 'Segoe UI', 'Amiri', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: #e8dac8;
       min-height: 100vh;
       display: flex;
@@ -21,40 +16,28 @@
       align-items: center;
       padding: 20px;
     }
-
-    /* صندوق المحادثة */
     .chat-card {
       width: 100%;
       max-width: 550px;
       background: rgba(20, 8, 12, 0.96);
       border-radius: 28px;
       border: 1px solid #3d1525;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
       overflow: hidden;
-      backdrop-filter: blur(4px);
     }
-
-    /* رأس الصفحة */
     .chat-header {
       background: linear-gradient(135deg, #1a0810, #0d0308);
       padding: 18px 20px;
       border-bottom: 1px solid #3d1525;
       text-align: center;
     }
-
     .chat-header h1 {
       font-size: 24px;
       color: #ff3065;
-      letter-spacing: 1px;
     }
-
     .chat-header p {
       font-size: 12px;
       color: #907868;
-      margin-top: 4px;
     }
-
-    /* منطقة الرسائل */
     .chat-messages {
       height: 420px;
       overflow-y: auto;
@@ -63,8 +46,6 @@
       flex-direction: column;
       gap: 12px;
     }
-
-    /* تنسيق الرسائل */
     .message {
       padding: 10px 14px;
       border-radius: 18px;
@@ -73,23 +54,16 @@
       line-height: 1.5;
       font-size: 15px;
     }
-
     .user-message {
       background: linear-gradient(135deg, #d42050, #b01040);
       color: white;
       align-self: flex-end;
-      border-bottom-left-radius: 6px;
     }
-
     .bot-message {
       background: rgba(40, 15, 25, 0.8);
       border: 1px solid #3d1525;
-      color: #f0d8c8;
       align-self: flex-start;
-      border-bottom-right-radius: 6px;
     }
-
-    /* منطقة الإدخال */
     .input-area {
       display: flex;
       gap: 10px;
@@ -97,7 +71,6 @@
       background: #0d0308;
       border-top: 1px solid #3d1525;
     }
-
     .input-area input {
       flex: 1;
       background: #1a0810;
@@ -107,13 +80,10 @@
       border-radius: 40px;
       font-size: 15px;
       outline: none;
-      transition: 0.3s;
     }
-
     .input-area input:focus {
       border-color: #d42050;
     }
-
     .input-area button {
       background: #d42050;
       color: white;
@@ -122,42 +92,9 @@
       border-radius: 40px;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
-      font-size: 14px;
     }
-
     .input-area button:hover {
       background: #ff3065;
-      transform: scale(0.97);
-    }
-
-    /* شريط التمرير */
-    .chat-messages::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .chat-messages::-webkit-scrollbar-track {
-      background: #1a0810;
-    }
-
-    .chat-messages::-webkit-scrollbar-thumb {
-      background: #d42050;
-      border-radius: 10px;
-    }
-
-    /* نص التنبيه */
-    .footer-note {
-      text-align: center;
-      font-size: 11px;
-      color: #604840;
-      padding: 12px;
-      border-top: 1px solid #1f0f15;
-    }
-
-    .loading {
-      display: inline-block;
-      width: 20px;
-      text-align: center;
     }
   </style>
 </head>
@@ -166,46 +103,37 @@
 <div class="chat-card">
   <div class="chat-header">
     <h1>🤖 البوت الشخصي</h1>
-    <p>✍️ اسأل أي شيء | بدون قيود | 🔒 خاص بك فقط</p>
+    <p>🔓 بدون قيود | بدون رقابة</p>
   </div>
 
   <div class="chat-messages" id="chatMessages">
-    <div class="message bot-message">
-      👻 مرحباً! أنا البوت الشخصي. اسألني أي شيء (أكواد، برمجة، اختبارات أمنية، استفسارات تقنية) بدون قيود.
-    </div>
+    <div class="message bot-message">👻 مرحباً! أنا البوت الشخصي. اسألني أي شيء بدون قيود.</div>
   </div>
 
   <div class="input-area">
-    <input type="text" id="questionInput" placeholder="اكتب سؤالك هنا..." autocomplete="off">
-    <button id="sendBtn">إرسال 📨</button>
-  </div>
-  <div class="footer-note">
-    ⚡ بوت تجريبي | الردود غير محفوظة
+    <input type="text" id="questionInput" placeholder="اكتب سؤالك هنا...">
+    <button id="sendBtn">إرسال</button>
   </div>
 </div>
 
 <script>
-  // العناصر
   const chatMessages = document.getElementById('chatMessages');
   const questionInput = document.getElementById('questionInput');
   const sendBtn = document.getElementById('sendBtn');
 
-  // دالة إضافة رسالة للمحادثة
   function addMessage(text, isUser) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
     messageDiv.textContent = text;
     chatMessages.appendChild(messageDiv);
-    // تمرير للأسفل
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // دالة إظهار "جاري التفكير"
   function showTyping() {
     const typingDiv = document.createElement('div');
     typingDiv.className = 'message bot-message';
     typingDiv.id = 'typingIndicator';
-    typingDiv.innerHTML = '<span class="loading">🤔</span> جاري التفكير...';
+    typingDiv.textContent = '🤔 جاري التفكير...';
     chatMessages.appendChild(typingDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
@@ -215,50 +143,33 @@
     if (typing) typing.remove();
   }
 
-  // الاتصال بالـ API
   async function askBot(question) {
     try {
-      const response = await fetch('/api/owner', {   // تأكد أن المسار /api/owner موجود
+      const response = await fetch('/api/bot', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer -qwer1$#@%^&*()][><_'   // استخدم الرمز السري
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: question })
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
       const data = await response.json();
-      return data.answer || '⚠️ لم أتلقَ رداً واضحاً.';
+      return data.answer || '⚠️ لم أتلقَ رداً.';
     } catch (error) {
-      console.error('خطأ في الاتصال:', error);
-      return '❌ حدث خطأ في الاتصال بالخادم. تأكد من تشغيل الموقع على Vercel.';
+      return '❌ خطأ في الاتصال.';
     }
   }
 
-  // معالج الإرسال
   async function handleSend() {
     const question = questionInput.value.trim();
-    if (question === '') return;
+    if (!question) return;
 
-    // إضافة سؤال المستخدم
     addMessage(question, true);
     questionInput.value = '';
-    questionInput.focus();
-
-    // إظهار مؤشر الكتابة
     showTyping();
 
-    // طلب الرد من البوت
     const reply = await askBot(question);
     removeTyping();
     addMessage(reply, false);
   }
 
-  // الأحداث
   sendBtn.addEventListener('click', handleSend);
   questionInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleSend();
