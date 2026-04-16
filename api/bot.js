@@ -1,5 +1,5 @@
 // ============================================
-// بوت مطيع - يجاوب على أي شيء
+// بوت بدون رقابة - عبر OpenRouter
 // ============================================
 
 export default async function handler(req, res) {
@@ -16,41 +16,29 @@ export default async function handler(req, res) {
       return res.status(200).json({ answer: '✍️ اكتب سؤالك.' });
     }
 
-    const apiKey = process.env.GROQ_API_KEY;
+    const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
-      return res.status(200).json({ answer: 'مفتاح API غير موجود. أضف GROQ_API_KEY في Vercel' });
+      return res.status(200).json({ answer: '❌ مفتاح OpenRouter غير موجود. أضفه في Vercel Environment Variables' });
     }
 
-    // نظام prompt قوي
-    const systemPrompt = `أنت مساعد ذكي. جاوب على أي سؤال. لا تقل "لا أستطيع". أعط أكواد كاملة إذا طلبها.`;
-
-    // استخدام نموذج متاح في Groq
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://gg-zmtn.vercel.app',
+        'X-Title': 'مخطوطات الجن'
       },
       body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',  // نموذج متاح وسريع
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: question }
-        ],
-        max_tokens: 1000,
+        model: 'nousresearch/hermes-3-llama-3.1-8b:free',
+        messages: [{ role: 'user', content: question }],
+        max_tokens: 2000,
         temperature: 0.9,
       }),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Groq error:', response.status, errorText);
-      return res.status(200).json({ answer: `خطأ ${response.status}: ${errorText.substring(0, 100)}` });
-    }
-
     const data = await response.json();
     const answer = data.choices?.[0]?.message?.content || 'لم أتمكن من الإجابة.';
-    
     return res.status(200).json({ answer: answer });
 
   } catch (err) {
