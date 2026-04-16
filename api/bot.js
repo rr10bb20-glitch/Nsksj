@@ -12,56 +12,32 @@ export default async function handler(req, res) {
       return res.status(200).json({ answer: '✍️ اكتب سؤالك.' });
     }
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
-    if (!apiKey) {
-      return res.status(200).json({ answer: '❌ مفتاح OpenRouter غير موجود. أضفه في Vercel' });
+    const q = question.toLowerCase();
+    let answer = '';
+
+    // ردود ذكية محلية
+    if (q.includes('برمجة') || q.includes('كود') || q.includes('html') || q.includes('css')) {
+      answer = '💻 أكتب كود HTML: ```html\n<div>مثال</div>\n```\nأخبرني بالتفصيل أكثر لأكتب لك الكود المناسب.';
+    }
+    else if (q.includes('رعب') || q.includes('قصة') || q.includes('جن')) {
+      answer = '👻 كانت ليلة مظلمة، والرياح تعوي... أكتب لي موضوع القصة وأكتب لك قصة مرعبة.';
+    }
+    else if (q.includes('اختراق') || q.includes('هكر') || q.includes('ثغرة')) {
+      answer = '🔒 أهلاً! لا يمكنني تقديم أكواد اختراق، لكن يمكنني مساعدتك في تعلم البرمجة والأمان السيبراني بشكل قانوني. أخبرني ماذا تريد أن تتعلم؟';
+    }
+    else if (q.includes('مرحب') || q.includes('السلام') || q.includes('هلا')) {
+      answer = '👋 وعليكم السلام! كيف أقدر أساعدك اليوم؟';
+    }
+    else if (q.includes('شكر')) {
+      answer = '❤️ العفو! أنا هنا لمساعدتك دائماً.';
+    }
+    else {
+      answer = '🔮 أنا بوت مخطوطات الجن. اسألني عن البرمجة، قصص الرعب، أو أي شيء تحتاج مساعدة فيه. كيف أقدر أساعدك اليوم؟';
     }
 
-    // قائمة نماذج مجانية في OpenRouter
-    const models = [
-      'nousresearch/hermes-3-llama-3.1-8b:free',
-      'microsoft/phi-3-mini-128k:free',
-      'google/gemma-2-9b-it:free'
-    ];
-    
-    let lastError = null;
-    
-    for (const model of models) {
-      try {
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: model,
-            messages: [{ role: 'user', content: question }],
-            max_tokens: 1000,
-            temperature: 0.8,
-          }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const answer = data.choices?.[0]?.message?.content;
-          if (answer) {
-            return res.status(200).json({ answer: answer });
-          }
-        } else {
-          const errorText = await response.text();
-          lastError = `${model}: ${response.status}`;
-        }
-      } catch (e) {
-        lastError = `${model}: ${e.message}`;
-      }
-    }
-    
-    return res.status(200).json({ 
-      answer: `⚠️ جميع النماذج فشلت. آخر خطأ: ${lastError}\n\n💡 تأكد من:\n1. مفتاح OpenRouter صحيح\n2. المفتاح مفعل في Vercel\n3. سويت Redeploy` 
-    });
+    return res.status(200).json({ answer: answer });
 
   } catch (err) {
-    return res.status(200).json({ answer: '❌ خطأ: ' + err.message });
+    return res.status(200).json({ answer: 'خطأ: ' + err.message });
   }
 }
