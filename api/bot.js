@@ -14,55 +14,33 @@ export default async function handler(req, res) {
 
     const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
-      return res.status(200).json({ answer: '❌ مفتاح OpenRouter غير موجود. أضفه في Vercel' });
+      return res.status(200).json({ answer: '❌ مفتاح OpenRouter غير موجود.' });
     }
 
-    // قائمة نماذج مجانية ومتاحة في OpenRouter
-    const models = [
-      'mistralai/mistral-7b-instruct:free',
-      'google/gemma-2-9b-it:free',
-      'microsoft/phi-3-mini-128k:free'
-    ];
-    
-    let lastError = null;
-    
-    for (const model of models) {
-      try {
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: model,
-            messages: [{ role: 'user', content: question }],
-            max_tokens: 800,
-            temperature: 0.7,
-          }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const answer = data.choices?.[0]?.message?.content;
-          if (answer && answer.length > 0) {
-            return res.status(200).json({ answer: answer });
-          }
-        } else {
-          const errorText = await response.text();
-          lastError = `${model}: ${response.status}`;
-        }
-      } catch (e) {
-        lastError = `${model}: ${e.message}`;
-      }
-    }
-    
-    // رد احتياطي (يشتغل غصب)
-    return res.status(200).json({ 
-      answer: `⚠️ جميع النماذج فشلت. آخر خطأ: ${lastError}\n\n💡 حلول سريعة:\n1. تأكد من مفتاح OpenRouter صحيح\n2. أعد نشر الموقع (Redeploy)\n3. جرب مفتاح جديد من OpenRouter` 
+    // ✅ Dolphin 3.0 R1 Mistral 24B (بدون رقابة)
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'cognitivecomputations/dolphin-3.0-r1-mistral-24b:free',
+        messages: [{ role: 'user', content: question }],
+        max_tokens: 1000,
+      }),
     });
 
+    if (!response.ok) {
+      const error = await response.text();
+      return res.status(200).json({ answer: `⚠️ خطأ ${response.status}: ${error.substring(0, 150)}` });
+    }
+
+    const data = await response.json();
+    const answer = data.choices?.[0]?.message?.content || 'لم يتلق رداً';
+    return res.status(200).json({ answer: answer });
+
   } catch (err) {
-    return res.status(200).json({ answer: '❌ خطأ عام: ' + err.message });
+    return res.status(200).json({ answer: '❌ خطأ: ' + err.message });
   }
 }
