@@ -12,44 +12,27 @@ export default async function handler(req, res) {
       return res.status(200).json({ answer: '✍️ اكتب سؤالك.' });
     }
 
-    const apiKey = process.env.GROQ_API_KEY;
+    const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
-      return res.status(200).json({ answer: 'مفتاح API غير موجود.' });
+      return res.status(200).json({ answer: '❌ مفتاح OpenRouter غير موجود. أضفه في Vercel' });
     }
 
-    // جرب أحد هذه النماذج
-    const models = ['mixtral-8x7b-32768', 'gemma2-9b-it', 'llama-3.3-70b-versatile'];
-    let lastError = null;
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'nousresearch/hermes-3-llama-3.1-8b:free',
+        messages: [{ role: 'user', content: question }],
+        max_tokens: 1000,
+      }),
+    });
 
-    for (const model of models) {
-      try {
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: model,
-            messages: [{ role: 'user', content: question }],
-            max_tokens: 1000,
-          }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const answer = data.choices?.[0]?.message?.content;
-          return res.status(200).json({ answer: answer });
-        } else {
-          const error = await response.text();
-          lastError = `${model}: ${response.status}`;
-        }
-      } catch (e) {
-        lastError = `${model}: ${e.message}`;
-      }
-    }
-
-    return res.status(200).json({ answer: `⚠️ جميع النماذج فشلت. آخر خطأ: ${lastError}` });
+    const data = await response.json();
+    const answer = data.choices?.[0]?.message?.content || 'لم أتمكن من الإجابة.';
+    return res.status(200).json({ answer: answer });
 
   } catch (err) {
     return res.status(200).json({ answer: 'خطأ: ' + err.message });
