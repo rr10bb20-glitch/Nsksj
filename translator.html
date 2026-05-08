@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+<title>مترجم الألعاب</title>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Reem Kufi',sans-serif;
+  background:#080c14;
+  color:#c0d0f0;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:24px 16px;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.card{
+  width:100%;max-width:420px;
+  background:rgba(12,20,38,.95);
+  border:1px solid #1e3060;
+  border-radius:20px;
+  padding:24px 20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+/* شعار + شارة Android */
+.title-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px;}
+.title{font-size:20px;font-weight:700;color:#5a8aff;letter-spacing:1px;}
+.android-badge{
+  background:rgba(90,138,255,.12);
+  border:1px solid rgba(90,138,255,.2);
+  border-radius:8px;padding:3px 8px;
+  font-size:10px;color:#5a8aff;letter-spacing:1px;
+}
+
+/* تلميح نسخ */
+.hint-box{
+  background:rgba(90,138,255,.07);
+  border:1px solid rgba(90,138,255,.15);
+  border-radius:12px;padding:12px 14px;
+  font-size:12px;color:#7090b8;
+  line-height:1.8;margin-bottom:14px;
+  text-align:center;
+}
+.hint-box strong{color:#5a8aff;}
+
+textarea{
+  width:100%;
+  background:rgba(255,255,255,.05);
+  border:1px solid #1e3060;
+  border-radius:12px;
+  color:#e8f0ff;
+  font-family:'Amiri',serif;font-size:17px;line-height:1.9;
+  padding:14px;resize:none;height:100px;outline:none;
+  transition:border-color .3s;direction:auto;
+}
+textarea:focus{border-color:#3a6adf;}
+textarea::placeholder{color:#304060;font-family:'Reem Kufi',sans-serif;font-size:14px;}
+
+.lang-row{display:flex;align-items:center;gap:8px;margin:12px 0;}
+select{
+  flex:1;
+  background:rgba(255,255,255,.05);border:1px solid #1e3060;
+  border-radius:10px;color:#c0d0f0;
+  font-family:'Reem Kufi',sans-serif;font-size:12px;
+  padding:9px 10px;outline:none;cursor:pointer;
+  appearance:none;-webkit-appearance:none;transition:border-color .3s;
+}
+select option{background:#080c14;}
+.swap-btn{
+  width:36px;height:36px;flex-shrink:0;
+  background:rgba(90,138,255,.1);border:1px solid #2a4a8a;
+  border-radius:50%;color:#5a8aff;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .25s;
+}
+.swap-btn:active{transform:rotate(180deg);}
+
+.btn-main{
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,#3a6adf,#1530a0);
+  border:none;border-radius:12px;color:#fff;
+  font-family:'Reem Kufi',sans-serif;font-size:15px;font-weight:700;
+  letter-spacing:1px;cursor:pointer;margin-top:4px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .25s;box-shadow:0 4px 20px rgba(58,106,223,.4);
+}
+.btn-main:active:not(:disabled){transform:scale(.97);}
+.btn-main:disabled{opacity:.4;cursor:not-allowed;}
+.btn-main .spin{
+  width:17px;height:17px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn-main.loading .lbl{display:none;}
+.btn-main.loading .spin{display:block;}
+
+/* زر لصق Android خاص */
+.btn-android-paste{
+  width:100%;padding:11px;
+  background:rgba(40,200,112,.08);
+  border:1px solid rgba(40,200,112,.25);
+  border-radius:10px;color:#28c870;
+  font-family:'Reem Kufi',sans-serif;font-size:12px;
+  cursor:pointer;margin-top:6px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:all .2s;
+}
+.btn-android-paste:active{transform:scale(.96);}
+
+.helpers{display:flex;gap:6px;margin-top:8px;}
+.h-btn{
+  flex:1;padding:8px;
+  background:rgba(255,255,255,.04);border:1px solid #1e3060;
+  border-radius:9px;color:#7090b8;
+  font-family:'Reem Kufi',sans-serif;font-size:11px;cursor:pointer;transition:all .2s;
+}
+.h-btn:active{transform:scale(.94);}
+
+/* Overlay */
+#overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(4,8,20,.82);
+  backdrop-filter:blur(16px) saturate(1.3);
+  -webkit-backdrop-filter:blur(16px) saturate(1.3);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:24px 20px;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease;
+}
+#overlay.show{opacity:1;pointer-events:all;}
+
+.ov-card{
+  width:100%;max-width:400px;
+  background:rgba(6,12,24,.55);
+  border:1px solid rgba(90,138,255,.22);
+  border-radius:22px;
+  padding:28px 22px 20px;
+  box-shadow:0 0 80px rgba(90,138,255,.08),0 24px 64px rgba(0,0,0,.6);
+  animation:popIn .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+
+.ov-original{
+  font-family:'Amiri',serif;font-size:15px;
+  color:rgba(180,200,240,.45);
+  margin-bottom:16px;padding-bottom:14px;
+  border-bottom:1px solid rgba(90,138,255,.12);
+  line-height:1.8;direction:auto;word-break:break-word;
+}
+.ov-original-label{
+  font-family:'Reem Kufi',sans-serif;font-size:9px;
+  color:rgba(90,138,255,.4);letter-spacing:2px;
+  display:block;margin-bottom:5px;
+}
+.ov-loading{
+  display:none;align-items:center;justify-content:center;gap:7px;padding:14px 0;
+}
+.ov-loading.show{display:flex;}
+.dot{
+  width:8px;height:8px;border-radius:50%;background:#3a6adf;
+  animation:dotPulse 1.2s ease-in-out infinite;
+}
+.dot:nth-child(2){animation-delay:.2s;}
+.dot:nth-child(3){animation-delay:.4s;}
+@keyframes dotPulse{0%,80%,100%{transform:scale(.5);opacity:.3}40%{transform:scale(1);opacity:1}}
+
+#ovResult{display:none;}
+.ov-arrow{text-align:center;font-size:20px;color:rgba(90,138,255,.4);margin-bottom:10px;}
+.ov-trans-label{
+  font-family:'Reem Kufi',sans-serif;font-size:9px;
+  color:rgba(90,138,255,.5);letter-spacing:2px;
+  display:block;margin-bottom:8px;text-align:center;
+}
+.ov-translation{
+  font-family:'Amiri',serif;font-size:26px;font-weight:700;
+  color:#e8f0ff;line-height:1.8;
+  direction:auto;word-break:break-word;text-align:center;
+  text-shadow:0 0 30px rgba(90,138,255,.2);
+}
+.ov-lang-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:12px;
+  background:rgba(90,138,255,.1);border:1px solid rgba(90,138,255,.2);
+  border-radius:20px;padding:4px 12px;
+  font-family:'Reem Kufi',sans-serif;font-size:10px;
+  color:rgba(90,138,255,.7);letter-spacing:1px;
+}
+.ov-lang-wrap{text-align:center;}
+.ov-actions{display:flex;gap:7px;margin-top:20px;}
+.ov-btn{
+  flex:1;padding:11px 4px;border-radius:10px;
+  font-family:'Reem Kufi',sans-serif;font-size:11px;cursor:pointer;
+  transition:all .2s;border:1px solid rgba(255,255,255,.09);
+  background:rgba(255,255,255,.05);color:rgba(255,255,255,.6);
+  display:flex;align-items:center;justify-content:center;gap:4px;
+}
+.ov-btn:active{transform:scale(.94);}
+.ov-close{
+  width:40px;height:40px;flex-shrink:0;border-radius:50%;
+  background:rgba(224,56,80,.1);border:1px solid rgba(224,56,80,.22);
+  color:rgba(224,56,80,.8);font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+  align-self:center;
+}
+.toast{
+  position:fixed;bottom:30px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:rgba(12,20,38,.97);border:1px solid #2a4a8a;
+  border-radius:20px;padding:9px 20px;
+  font-family:'Reem Kufi',sans-serif;font-size:12px;color:#e8f0ff;
+  z-index:99999;opacity:0;white-space:nowrap;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);backdrop-filter:blur(10px);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.ok{border-color:#28c870;color:#28c870;}
+.toast.err{border-color:#e03850;color:#e03850;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="title-row">
+    <div class="title">⚡ مترجم الألعاب</div>
+    <div class="android-badge">Android</div>
+  </div>
+
+  <!-- تلميح الزر العائم -->
+  <div class="hint-box">
+    الزر العائم <strong>⚡</strong> يعمل الآن فوق كل التطبيقات<br>
+    انسخ نصاً من أي لعبة ← اضغط الزر ← الترجمة تظهر فوراً
+  </div>
+
+  <div class="lang-row">
+    <select id="fromLang">
+      <option value="en">🇺🇸 إنجليزي</option>
+      <option value="ja">🇯🇵 ياباني</option>
+      <option value="ko">🇰🇷 كوري</option>
+      <option value="zh">🇨🇳 صيني</option>
+      <option value="fr">🇫🇷 فرنسي</option>
+      <option value="de">🇩🇪 ألماني</option>
+      <option value="es">🇪🇸 إسباني</option>
+      <option value="ru">🇷🇺 روسي</option>
+      <option value="tr">🇹🇷 تركي</option>
+      <option value="auto">🔍 تلقائي</option>
+    </select>
+    <div class="swap-btn" onclick="swapLangs()">⇄</div>
+    <select id="toLang">
+      <option value="ar">🇸🇦 عربي</option>
+      <option value="en">🇺🇸 إنجليزي</option>
+      <option value="fr">🇫🇷 فرنسي</option>
+      <option value="de">🇩🇪 ألماني</option>
+      <option value="es">🇪🇸 إسباني</option>
+      <option value="ja">🇯🇵 ياباني</option>
+      <option value="ko">🇰🇷 كوري</option>
+    </select>
+  </div>
+
+  <textarea id="inputText"
+    placeholder="اكتب أو الصق النص هنا…&#10;مثال: Come here"
+    oninput="onInput()"></textarea>
+
+  <!-- لصق من Android Clipboard -->
+  <button class="btn-android-paste" onclick="pasteFromAndroid()">
+    📋 لصق من حافظة الأندرويد
+  </button>
+
+  <button class="btn-main" id="mainBtn" onclick="doTranslate()" disabled>
+    <span class="lbl">⚡ ترجم — تظهر الشاشة الشفافة</span>
+    <div class="spin"></div>
+  </button>
+
+  <div class="helpers">
+    <div class="h-btn" onclick="pasteText()">📋 لصق عادي</div>
+    <div class="h-btn" onclick="clearInput()">✕ مسح</div>
+  </div>
+</div>
+
+<!-- Overlay شفاف -->
+<div id="overlay">
+  <div class="ov-card">
+    <div class="ov-original">
+      <span class="ov-original-label">النص الأصلي</span>
+      <span id="ovOriginalText"></span>
+    </div>
+    <div class="ov-loading" id="ovLoading">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div id="ovResult">
+      <div class="ov-arrow">↓</div>
+      <span class="ov-trans-label">الترجمة</span>
+      <div class="ov-translation" id="ovTranslation"></div>
+      <div class="ov-lang-wrap">
+        <div class="ov-lang-badge" id="ovLangBadge"></div>
+      </div>
+    </div>
+    <div class="ov-actions">
+      <div class="ov-btn" onclick="copyResult()">📋 نسخ</div>
+      <div class="ov-btn" onclick="speakResult()">🔊 صوت</div>
+      <div class="ov-btn" onclick="shareResult()">📤 شارك</div>
+      <div class="ov-close" onclick="closeOverlay()">✕</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const LANGS={ar:'عربي',en:'إنجليزي',ja:'ياباني',ko:'كوري',zh:'صيني',
+  fr:'فرنسي',de:'ألماني',es:'إسباني',ru:'روسي',tr:'تركي'};
+const FLAGS={ar:'🇸🇦',en:'🇺🇸',ja:'🇯🇵',ko:'🇰🇷',zh:'🇨🇳',
+  fr:'🇫🇷',de:'🇩🇪',es:'🇪🇸',ru:'🇷🇺',tr:'🇹🇷'};
+let lastResult = '';
+
+// ── لصق من Android Bridge ──
+function pasteFromAndroid() {
+  try {
+    if (window.AndroidClipboard) {
+      const text = window.AndroidClipboard.getText();
+      if (text && text.trim()) {
+        document.getElementById('inputText').value = text.trim().slice(0, 1000);
+        onInput();
+        toast('تم اللصق من الأندرويد ✓', 'ok');
+        return;
+      }
+    }
+  } catch(e) {}
+  // fallback للمتصفح العادي
+  pasteText();
+}
+
+function onInput(){
+  document.getElementById('mainBtn').disabled =
+    !document.getElementById('inputText').value.trim();
+}
+
+async function pasteText(){
+  try{
+    const t = await navigator.clipboard.readText();
+    document.getElementById('inputText').value = t.slice(0,1000);
+    onInput(); toast('تم اللصق ✓','ok');
+  }catch{
+    // جرب Android Bridge
+    pasteFromAndroid();
+  }
+}
+
+function clearInput(){
+  document.getElementById('inputText').value='';
+  onInput();
+}
+
+function swapLangs(){
+  const f=document.getElementById('fromLang'), t=document.getElementById('toLang');
+  if(f.value==='auto') return;
+  [f.value,t.value]=[t.value,f.value];
+}
+
+async function doTranslate(){
+  const text = document.getElementById('inputText').value.trim();
+  if(!text) return;
+  const from = document.getElementById('fromLang').value;
+  const to   = document.getElementById('toLang').value;
+  const btn  = document.getElementById('mainBtn');
+  btn.classList.add('loading'); btn.disabled=true;
+  openOverlay(text);
+  try{
+    const result = await callAPI(text, from==='auto'?'en':from, to);
+    lastResult = result;
+    showResult(result, to);
+    // نسخ تلقائي للـ Android Clipboard
+    if(window.AndroidClipboard) {
+      window.AndroidClipboard.setText(result);
+    }
+  }catch{
+    closeOverlay();
+    toast('خطأ في الترجمة — تحقق من الإنترنت','err');
+  }
+  btn.classList.remove('loading'); btn.disabled=false;
+}
+
+function openOverlay(originalText){
+  document.getElementById('ovOriginalText').textContent = originalText;
+  document.getElementById('ovLoading').classList.add('show');
+  document.getElementById('ovResult').style.display = 'none';
+  document.getElementById('overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function showResult(text, toLang){
+  document.getElementById('ovLoading').classList.remove('show');
+  document.getElementById('ovTranslation').textContent = text;
+  document.getElementById('ovLangBadge').textContent =
+    (FLAGS[toLang]||'🌐') + ' ' + (LANGS[toLang]||toLang);
+  document.getElementById('ovResult').style.display = 'block';
+}
+
+function closeOverlay(){
+  document.getElementById('overlay').classList.remove('show');
+  document.body.style.overflow = '';
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+document.getElementById('overlay').addEventListener('click', function(e){
+  if(e.target === this) closeOverlay();
+});
+
+function copyResult(){
+  if(!lastResult) return;
+  if(window.AndroidClipboard) {
+    window.AndroidClipboard.setText(lastResult);
+    toast('تم النسخ ✓','ok');
+    return;
+  }
+  navigator.clipboard.writeText(lastResult)
+    .then(()=>toast('تم النسخ ✓','ok'))
+    .catch(()=>toast('فشل النسخ','err'));
+}
+
+function speakResult(){
+  if(!lastResult || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(lastResult);
+  const to = document.getElementById('toLang').value;
+  u.lang = to==='ar'?'ar-SA': to==='en'?'en-US': to;
+  window.speechSynthesis.speak(u);
+  toast('جاري القراءة…','ok');
+}
+
+function shareResult(){
+  if(!lastResult) return;
+  if(navigator.share) navigator.share({text: lastResult});
+  else copyResult();
+}
+
+async function callAPI(text, from, to){
+  const chunks = chunkText(text, 450);
+  const res = await Promise.all(chunks.map(async c=>{
+    const r = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(c)}&langpair=${from}|${to}`
+    );
+    const d = await r.json();
+    if(d.responseStatus!==200) throw new Error('API error');
+    return d.responseData.translatedText;
+  }));
+  return res.join(' ');
+}
+
+function chunkText(t,n){
+  const o=[]; let i=0;
+  while(i<t.length){
+    let e=Math.min(i+n,t.length);
+    if(e<t.length){const s=t.lastIndexOf(' ',e);if(s>i)e=s;}
+    o.push(t.slice(i,e).trim()); i=e;
+  }
+  return o.filter(Boolean);
+}
+
+let _t;
+function toast(msg,type=''){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='toast '+type+' show';
+  clearTimeout(_t); _t=setTimeout(()=>el.classList.remove('show'),2500);
+}
+</script>
+</body>
+</html>
