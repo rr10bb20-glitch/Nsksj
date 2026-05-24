@@ -629,7 +629,7 @@ footer span{color:var(--gold)}
 /* ════════════════════════════════════════════
    STATE
 ════════════════════════════════════════════ */
-let API_KEY = localStorage.getItem('wazifati_key') || '';
+let API_KEY = 'proxy'; // المفتاح محفوظ في السيرفر
 let currentPage = 'home';
 
 // CV state
@@ -714,9 +714,7 @@ function esc(str='') {
 }
 
 function requireKey(cb) {
-  if (API_KEY) { cb(); return; }
-  document.getElementById('key-modal').classList.add('show');
-  document._pendingCb = cb;
+  cb(); // المفتاح في السيرفر، لا حاجة للمودال
 }
 function saveApiKey() {
   const v = document.getElementById('api-key-input').value.trim();
@@ -729,13 +727,9 @@ function saveApiKey() {
 }
 
 async function callClaude(system, user, maxTokens=1200) {
-  if (!API_KEY) throw new Error('API key غير مضبوط');
-  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  const res = await fetch('/api/chat', {
     method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'Bearer '+API_KEY,
-    },
+    headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
       model:'llama-3.3-70b-versatile',
       max_tokens:maxTokens,
@@ -751,13 +745,9 @@ async function callClaude(system, user, maxTokens=1200) {
 }
 
 async function callClaudeHistory(system, history, maxTokens=700) {
-  if (!API_KEY) throw new Error('API key غير مضبوط');
-  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  const res = await fetch('/api/chat', {
     method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'Bearer '+API_KEY,
-    },
+    headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
       model:'llama-3.3-70b-versatile',
       max_tokens:maxTokens,
