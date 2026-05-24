@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>وظيفتي AI — سيرتك الذاتية المثالية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS & RESET
+═══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#1a2f45;--navy3:#0a1520;
+  --gold:#c9a84c;--gold-l:#f0d080;--gold-d:#a07830;
+  --teal:#1a9e8f;--teal-l:#22c5b3;
+  --cream:#fdf8f0;--white:#fff;
+  --g1:#374151;--g2:#6b7280;--g3:#9ca3af;--g4:#e5e7eb;--g5:#f3f4f6;
+  --ok:#10b981;--err:#ef4444;--warn:#f59e0b;
+  --r-sm:8px;--r-md:14px;--r-lg:20px;--r-xl:28px;
+  --sh-sm:0 2px 8px rgba(13,27,42,.07);
+  --sh-md:0 4px 24px rgba(13,27,42,.10);
+  --sh-lg:0 8px 48px rgba(13,27,42,.14);
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font:'Cairo',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);direction:rtl;text-align:right;background:var(--cream);color:var(--navy);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--g5)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:99px}
+a{text-decoration:none;color:inherit}
+h1,h2,h3,h4{font-family:var(--font);line-height:1.2;color:var(--navy)}
+textarea,input,select{font-family:var(--font);direction:rtl}
+img{display:block}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+.app{display:flex;flex-direction:column;min-height:100vh}
+.container{max-width:1100px;margin:0 auto;width:100%;padding:0 24px}
+.main{flex:1;padding:40px 24px 80px;max-width:1100px;margin:0 auto;width:100%}
+
+/* ═══════════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideR{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:.85}}
+@keyframes dotBlink{0%,80%,100%{opacity:0}40%{opacity:1}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes progress{from{width:0}to{width:100%}}
+@keyframes barFill{from{stroke-dashoffset:226}to{stroke-dashoffset:var(--offset)}}
+
+.au{animation:fadeUp .5s ease both}
+.ai{animation:fadeIn .4s ease both}
+.as{animation:slideR .4s ease both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+
+/* ═══════════════════════════════════════════
+   CARDS & COMMON
+═══════════════════════════════════════════ */
+.card{background:var(--white);border-radius:var(--r-lg);border:1px solid var(--g4);box-shadow:var(--sh-md);overflow:hidden}
+.card-hd{padding:20px 28px;border-bottom:1px solid var(--g4);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-title{font-size:17px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:10px}
+.card-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-l));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.card-body{padding:28px}
+.divider{height:1px;background:var(--g4);margin:24px 0}
+.section-hd{margin-bottom:32px}
+.section-hd h1{font-size:clamp(22px,4vw,28px);font-weight:800;color:var(--navy)}
+.section-hd p{font-size:14px;color:var(--g2);margin-top:4px}
+.chip{display:inline-flex;align-items:center;padding:3px 12px;border-radius:99px;font-size:12px;font-weight:700}
+.chip-gold{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold-d)}
+.chip-teal{background:rgba(26,158,143,.12);border:1px solid rgba(26,158,143,.3);color:var(--teal)}
+
+/* ═══════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════ */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;border-radius:var(--r-md);border:none;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all var(--tr);white-space:nowrap;user-select:none}
+.btn:disabled{opacity:.45;cursor:not-allowed!important;transform:none!important;box-shadow:none!important}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);box-shadow:0 4px 16px rgba(201,168,76,.35)}
+.btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,.5)}
+.btn-teal{background:linear-gradient(135deg,var(--teal),var(--teal-l));color:#fff;box-shadow:0 4px 14px rgba(26,158,143,.3)}
+.btn-teal:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,158,143,.4)}
+.btn-outline{background:transparent;border:2px solid var(--gold);color:var(--gold)}
+.btn-outline:hover:not(:disabled){background:rgba(201,168,76,.08);transform:translateY(-2px)}
+.btn-secondary{background:var(--g5);color:var(--g1);border:1px solid var(--g4)}
+.btn-secondary:hover:not(:disabled){background:var(--g4)}
+.btn-ghost{background:transparent;color:var(--g2);padding:8px 14px}
+.btn-ghost:hover{background:var(--g5);color:var(--navy)}
+.btn-sm{padding:7px 16px;font-size:13px}
+.btn-lg{padding:14px 32px;font-size:16px}
+.btn-full{width:100%;justify-content:center}
+.spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;flex-shrink:0}
+.spinner-dark{border-color:rgba(13,27,42,.2);border-top-color:var(--navy)}
+
+/* ═══════════════════════════════════════════
+   FORM
+═══════════════════════════════════════════ */
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.fg label{font-size:13px;font-weight:700;color:var(--navy)}
+.fg .req{color:var(--err);margin-left:2px}
+.fg input,.fg textarea,.fg select{
+  width:100%;padding:12px 16px;border:1.5px solid var(--g4);border-radius:var(--r-sm);
+  font-family:var(--font);font-size:14px;color:var(--navy);background:var(--white);
+  transition:border-color var(--tr),box-shadow var(--tr);resize:vertical
+}
+.fg input:focus,.fg textarea:focus,.fg select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.12)}
+.fg .hint{font-size:12px;color:var(--g3)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
+.col-2{grid-column:1/-1}
+
+/* ═══════════════════════════════════════════
+   TAGS INPUT
+═══════════════════════════════════════════ */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;border:1.5px solid var(--g4);border-radius:var(--r-sm);background:var(--white);cursor:text;transition:border-color var(--tr)}
+.tags-wrap:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.12)}
+.tag-item{display:flex;align-items:center;gap:4px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold-d);padding:3px 10px 3px 6px;border-radius:99px;font-size:13px;font-weight:600}
+.tag-del{cursor:pointer;opacity:.6;font-size:14px;padding:0 2px}
+.tag-del:hover{opacity:1}
+.tag-input{border:none;outline:none;background:transparent;font-family:var(--font);font-size:14px;min-width:100px;flex:1}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+#toast{position:fixed;bottom:28px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast-item{
+  padding:12px 20px;border-radius:var(--r-md);font-size:14px;font-weight:600;
+  display:flex;align-items:center;gap:10px;pointer-events:auto;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);animation:slideR .3s ease;
+  max-width:320px;
+}
+.toast-success{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.toast-error{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+
+/* ═══════════════════════════════════════════
+   LOADING OVERLAY
+═══════════════════════════════════════════ */
+#overlay{position:fixed;inset:0;background:rgba(13,27,42,.85);backdrop-filter:blur(6px);z-index:9998;display:none;align-items:center;justify-content:center}
+#overlay.show{display:flex}
+.overlay-box{text-align:center;color:#fff;max-width:280px}
+.overlay-ring{width:60px;height:60px;border:4px solid rgba(201,168,76,.25);border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 20px}
+.overlay-msg{font-size:15px;font-weight:600;opacity:.9}
+
+/* ═══════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════ */
+nav{background:rgba(13,27,42,.96);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,76,.15);position:sticky;top:0;z-index:100}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1200px;margin:0 auto;gap:16px}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.nav-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--gold-l));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.nav-logo-text{font-size:18px;font-weight:900;color:var(--white)}
+.nav-logo-text em{color:var(--gold);font-style:normal}
+.nav-links{display:flex;gap:4px}
+.nav-btn{background:transparent;border:none;color:rgba(255,255,255,.7);font-family:var(--font);font-size:14px;font-weight:600;padding:8px 14px;border-radius:var(--r-sm);cursor:pointer;transition:all var(--tr)}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-btn.active{color:var(--gold);background:rgba(201,168,76,.1)}
+@media(max-width:520px){.nav-links .nav-lbl{display:none}}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;padding:24px;font-size:13px;border-top:1px solid rgba(255,255,255,.07)}
+footer span{color:var(--gold)}
+
+/* ═══════════════════════════════════════════
+   PAGE: HOME
+═══════════════════════════════════════════ */
+.hero{position:relative;background:linear-gradient(150deg,var(--navy3) 0%,var(--navy) 50%,#0f2d4a 100%);overflow:hidden;padding:80px 24px 100px}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(201,168,76,.12) 0%,transparent 70%)}
+.hero-content{max-width:680px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:6px 18px;border-radius:99px;font-size:13px;font-weight:700;margin-bottom:24px}
+.hero-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
+.hero-title{font-size:clamp(32px,6vw,54px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px}
+.hero-title em{color:var(--gold);font-style:normal}
+.hero-sub{font-size:16px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.hero-stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap}
+.stat-n{font-size:26px;font-weight:900;color:var(--gold)}
+.stat-l{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px}
+.stat{text-align:center}
+
+.features-sec{padding:80px 24px}
+.sec-hd{text-align:center;margin-bottom:52px}
+.sec-title{font-size:clamp(24px,4vw,32px);font-weight:800;color:var(--navy)}
+.sec-sub{font-size:15px;color:var(--g2);margin-top:10px;max-width:480px;margin-left:auto;margin-right:auto}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.feat-card{background:var(--white);border:1px solid var(--g4);border-radius:var(--r-lg);padding:28px;box-shadow:var(--sh-sm);transition:all var(--tr)}
+.feat-card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);border-color:rgba(201,168,76,.3)}
+.feat-icon{font-size:32px;margin-bottom:14px}
+.feat-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.feat-desc{font-size:13px;color:var(--g2);line-height:1.7}
+
+.steps-sec{background:var(--navy);padding:80px 24px}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:52px}
+.step-card{text-align:center;padding:28px 20px}
+.step-num{font-size:42px;font-weight:900;color:var(--gold);opacity:.9;margin-bottom:12px}
+.step-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.step-desc{font-size:13px;color:rgba(255,255,255,.5);line-height:1.6}
+
+.smart-banner{padding:80px 24px;background:var(--white)}
+.smart-inner{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);border-radius:var(--r-xl);padding:52px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;overflow:hidden;position:relative}
+.smart-inner::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(201,168,76,.15),transparent 70%);pointer-events:none}
+.smart-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:5px 14px;border-radius:99px;font-size:12px;font-weight:700;margin-bottom:16px}
+.smart-title{font-size:clamp(22px,3.5vw,32px);font-weight:800;color:#fff;margin-bottom:14px}
+.smart-sub{font-size:14px;color:rgba(255,255,255,.65);line-height:1.8;margin-bottom:20px}
+.smart-feats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.smart-feat{font-size:12px;font-weight:600;padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.12)}
+.smart-modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.smart-mode-tag{font-size:12px;font-weight:700;padding:5px 14px;border-radius:99px}
+.smart-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);padding:13px 28px;border-radius:var(--r-md);font-size:15px;font-weight:800;cursor:pointer;border:none;transition:all var(--tr)}
+.smart-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,.4)}
+.mock-chat{background:rgba(0,0,0,.4);border-radius:var(--r-lg);overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.mock-bar{background:rgba(255,255,255,.06);padding:12px 16px;display:flex;align-items:center;gap:6px}
+.mock-dot{width:10px;height:10px;border-radius:50%}
+.mock-title{font-size:13px;color:rgba(255,255,255,.5);margin-right:auto}
+.mock-msgs{padding:16px;display:flex;flex-direction:column;gap:12px}
+.mock-ai,.mock-user{display:flex;gap:8px;align-items:flex-start}
+.mock-user{flex-direction:row-reverse}
+.mock-bubble{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 14px;font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;max-width:85%}
+.cta-sec{padding:80px 24px;background:linear-gradient(135deg,var(--navy3),var(--navy))}
+.cta-box{text-align:center;max-width:560px;margin:0 auto}
+.cta-title{font-size:clamp(26px,4vw,38px);font-weight:900;color:#fff;margin-bottom:14px}
+.cta-sub{font-size:15px;color:rgba(255,255,255,.6);margin-bottom:32px;line-height:1.7}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+@media(max-width:600px){.smart-inner{grid-template-columns:1fr;padding:32px 24px}.mock-chat{display:none}}
+
+/* ═══════════════════════════════════════════
+   PAGE: CV
+═══════════════════════════════════════════ */
+.steps-bar{display:flex;align-items:center;padding:20px 28px;border-bottom:1px solid var(--g4);overflow-x:auto;gap:0}
+.step-item{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.step-circle{width:32px;height:32px;border-radius:50%;border:2px solid var(--g4);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--g3);background:var(--white);transition:all var(--tr);flex-shrink:0}
+.step-lbl{font-size:13px;font-weight:600;color:var(--g3);white-space:nowrap;transition:color var(--tr)}
+.step-active .step-circle{border-color:var(--gold);background:var(--gold);color:var(--navy)}
+.step-active .step-lbl{color:var(--navy);font-weight:700}
+.step-done .step-circle{border-color:var(--teal);background:var(--teal);color:#fff}
+.step-done .step-lbl{color:var(--teal)}
+.step-line{flex:1;height:2px;background:var(--g4);min-width:20px;margin:0 8px}
+.step-done + .step-line{background:var(--teal)}
+@media(max-width:480px){.step-lbl{display:none}}
+
+.tpl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tpl-card{border:2px solid var(--g4);border-radius:var(--r-md);padding:16px 12px;text-align:center;cursor:pointer;transition:all var(--tr)}
+.tpl-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.tpl-sel{border-color:var(--gold);background:rgba(201,168,76,.07);box-shadow:0 0 0 3px rgba(201,168,76,.12)}
+.tpl-swatch{width:48px;height:48px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:20px;color:#fff;font-weight:700}
+.tpl-lbl{font-size:13px;font-weight:700;color:var(--navy)}
+.review-box{background:var(--g5);border-radius:var(--r-md);padding:20px;border:1px solid var(--g4)}
+.review-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:14px}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.review-grid{grid-template-columns:1fr}}
+.review-row{display:flex;gap:8px;font-size:13px}
+.review-lbl{color:var(--g3);font-weight:600;white-space:nowrap}
+.review-val{color:var(--navy);font-weight:600;word-break:break-all}
+.ai-box{background:linear-gradient(135deg,rgba(13,27,42,.04),rgba(26,158,143,.05));border:1px solid rgba(26,158,143,.2);border-radius:var(--r-md);padding:20px;display:flex;gap:16px;align-items:flex-start}
+.ai-box-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.ai-box-item{font-size:13px;color:var(--g2);display:flex;gap:6px;padding:3px 0}
+.result-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:700px){.result-grid{grid-template-columns:1fr}}
+.result-card{background:var(--white);border:1px solid var(--g4);border-radius:var(--r-lg);overflow:hidden}
+.result-card-hd{padding:16px 20px;border-bottom:1px solid var(--g4);display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:700;color:var(--navy)}
+.result-text{padding:20px;font-size:13px;line-height:2;color:var(--g1);white-space:pre-wrap;max-height:400px;overflow-y:auto}
+.result-text.ltr{direction:ltr;text-align:left}
+.q-card{display:flex;gap:12px;padding:14px;background:var(--g5);border-radius:var(--r-sm);border:1px solid var(--g4)}
+.q-num{width:30px;height:30px;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.q-text{font-size:14px;color:var(--navy);line-height:1.7;font-weight:500}
+
+/* ═══════════════════════════════════════════
+   PAGE: INTERVIEW (simple)
+═══════════════════════════════════════════ */
+.iv-setup{max-width:600px;margin:0 auto}
+.iv-icon{font-size:48px;margin-bottom:12px;display:block;text-align:center}
+.iv-title{font-size:22px;font-weight:800;text-align:center;color:var(--navy);margin-bottom:6px}
+.iv-sub{font-size:14px;text-align:center;color:var(--g2);margin-bottom:28px;line-height:1.7}
+.opt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.opt-card{border:2px solid var(--g4);border-radius:var(--r-md);padding:14px 12px;text-align:center;cursor:pointer;transition:all var(--tr);display:flex;flex-direction:column;gap:4px}
+.opt-card:hover{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.opt-sel{border-color:var(--gold);background:rgba(201,168,76,.08);box-shadow:0 0 0 2px rgba(201,168,76,.15)}
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.diff-card{border:2px solid var(--g4);border-radius:var(--r-md);padding:14px;text-align:center;cursor:pointer;transition:all var(--tr)}
+.diff-card:hover{transform:translateY(-2px)}
+.iv-tips{display:flex;flex-direction:column;gap:10px;margin-top:24px;padding:0}
+.iv-tip{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--g2);background:var(--g5);padding:12px 16px;border-radius:var(--r-sm)}
+.iv-tip-n{width:22px;height:22px;background:var(--gold);color:var(--navy);border-radius:50%;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-root{display:flex;flex-direction:column;height:calc(100vh - 160px);min-height:500px;background:var(--white);border-radius:var(--r-lg);border:1px solid var(--g4);box-shadow:var(--sh-md);overflow:hidden}
+.chat-hd{background:var(--navy);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0}
+.chat-av{width:42px;height:42px;background:linear-gradient(135deg,var(--gold),var(--gold-l));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.chat-name{font-size:15px;font-weight:700;color:#fff}
+.chat-status{font-size:12px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:6px;margin-top:2px}
+.status-dot{width:7px;height:7px;background:var(--ok);border-radius:50%;animation:pulse 2s infinite}
+.chat-msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+.msg-row{display:flex;gap:10px;align-items:flex-end}
+.msg-row.user{flex-direction:row-reverse}
+.msg-av{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;font-weight:700}
+.msg-av-ai{background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--navy)}
+.msg-av-user{background:var(--teal);color:#fff}
+.bubble{max-width:75%;padding:13px 16px;border-radius:16px;font-size:14px;line-height:1.75;word-break:break-word}
+.bubble-ai{background:var(--g5);color:var(--navy);border-radius:16px 16px 16px 4px}
+.bubble-user{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:16px 16px 4px 16px}
+.typing-bubble{display:flex;gap:5px;align-items:center;padding:14px 18px}
+.typing-dot{width:8px;height:8px;background:var(--g3);border-radius:50%;animation:dotBlink 1.3s infinite}
+.chat-input-area{padding:16px;border-top:1px solid var(--g4);display:flex;gap:10px;align-items:flex-end;flex-shrink:0;background:var(--white)}
+.chat-textarea{flex:1;border:1.5px solid var(--g4);border-radius:var(--r-md);padding:12px 16px;font-family:var(--font);font-size:14px;color:var(--navy);resize:none;transition:border-color var(--tr);line-height:1.6;max-height:120px}
+.chat-textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+.send-btn{padding:12px 20px;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--navy);border:none;border-radius:var(--r-md);font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all var(--tr);white-space:nowrap;flex-shrink:0}
+.send-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,168,76,.4)}
+.send-btn:disabled{opacity:.45;cursor:not-allowed}
+.score-bar{padding:20px;background:var(--g5);border-top:1px solid var(--g4)}
+.score-label{font-size:12px;font-weight:700;color:var(--g2);margin-bottom:6px}
+.score-val{font-size:28px;font-weight:900;margin-bottom:10px}
+.score-track{height:8px;background:var(--g4);border-radius:99px;overflow:hidden;margin-bottom:16px}
+.score-fill{height:100%;border-radius:99px;transition:width 1s ease}
+.score-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@media(max-width:500px){.bubble{max-width:88%}}
+
+/* ═══════════════════════════════════════════
+   PAGE: SMART INTERVIEW
+═══════════════════════════════════════════ */
+.si-root{max-width:700px;margin:0 auto}
+.si-hero{text-align:center;margin-bottom:36px}
+.si-hero-icon{font-size:52px;margin-bottom:14px;display:block;animation:float 3s ease infinite}
+.si-hero-title{font-size:clamp(22px,5vw,32px);font-weight:900;color:var(--navy);margin-bottom:10px}
+.si-hero-sub{font-size:15px;color:var(--g2);line-height:1.8;max-width:500px;margin:0 auto}
+.section-lbl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--g3);margin-bottom:14px}
+.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+@media(max-width:460px){.mode-grid{grid-template-columns:1fr}}
+.mode-card{border:2px solid var(--g4);border-radius:var(--r-md);padding:18px 14px;text-align:center;cursor:pointer;transition:all var(--tr);position:relative}
+.mode-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+.mode-sel{border-color:var(--mc,var(--gold));background:rgba(var(--mc-rgb,201,168,76),.06);box-shadow:0 0 0 3px rgba(var(--mc-rgb,201,168,76),.15)}
+.mode-emoji{font-size:28px;display:block;margin-bottom:8px}
+.mode-lbl{font-size:14px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.mode-desc{font-size:12px;color:var(--g3);line-height:1.5}
+.mode-tick{position:absolute;top:10px;left:10px;width:20px;height:20px;border-radius:50%;background:var(--mc,var(--gold));color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.sector-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.sector-btn{padding:8px 16px;border-radius:99px;border:1.5px solid var(--g4);background:var(--white);font-family:var(--font);font-size:13px;font-weight:600;color:var(--g1);cursor:pointer;transition:all var(--tr)}
+.sector-btn:hover{border-color:var(--gold);color:var(--gold-d)}
+.sector-sel{border-color:var(--gold);background:rgba(201,168,76,.1);color:var(--gold-d)}
+.expect-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:28px}
+@media(max-width:480px){.expect-grid{grid-template-columns:1fr}}
+.expect-card{background:var(--g5);border:1px solid var(--g4);border-radius:var(--r-md);padding:16px;text-align:center}
+.expect-icon{font-size:24px;margin-bottom:8px}
+.expect-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.expect-desc{font-size:12px;color:var(--g3);line-height:1.5}
+.start-btn{width:100%;padding:16px;border-radius:var(--r-md);border:none;font-family:var(--font);font-size:16px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--mc,var(--gold)),var(--mc-d,var(--gold-d)));color:var(--navy);transition:all var(--tr);display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 20px rgba(var(--mc-rgb,201,168,76),.35);margin-bottom:12px}
+.start-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 32px rgba(var(--mc-rgb,201,168,76),.5)}
+.start-btn:disabled{opacity:.4;cursor:not-allowed}
+.disclaimer{font-size:12px;color:var(--g3);text-align:center}
+/* Brief screen */
+.brief-wrap{max-width:440px;margin:60px auto;text-align:center;padding:0 20px}
+.brief-orb{width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,var(--mc,var(--gold)) 0%,transparent 70%);margin:0 auto 20px;opacity:.4}
+.brief-emoji{font-size:56px;margin-bottom:14px;animation:float 2s ease infinite}
+.brief-title{font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.brief-mode{font-size:14px;font-weight:700;margin-bottom:4px}
+.brief-spec{font-size:13px;color:var(--g2);margin-bottom:24px}
+.brief-tips{display:flex;flex-direction:column;gap:10px;text-align:right;margin-bottom:28px}
+.brief-tip{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--g2);background:var(--g5);padding:12px 14px;border-radius:var(--r-sm)}
+.brief-tip-n{min-width:22px;height:22px;border-radius:50%;background:var(--mc,var(--gold));color:var(--navy);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.brief-progress{height:4px;background:var(--g4);border-radius:99px;overflow:hidden}
+.brief-bar{height:100%;background:var(--mc,var(--gold));animation:progress 2.2s ease forwards;border-radius:99px}
+.brief-wait{font-size:13px;color:var(--g3);margin-top:12px}
+/* Chat bar */
+.si-chat-root{display:flex;flex-direction:column;height:calc(100vh - 160px);min-height:500px;background:var(--white);border-radius:var(--r-lg);border:1px solid var(--g4);box-shadow:var(--sh-md);overflow:hidden}
+.si-chat-bar{background:var(--navy);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;flex-wrap:wrap}
+.si-bar-left{display:flex;gap:12px;align-items:center}
+.si-av{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid}
+.si-av-name{font-size:14px;font-weight:700;color:#fff}
+.si-av-spec{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px}
+.si-bar-right{display:flex;gap:12px;align-items:center}
+.q-prog{display:flex;flex-direction:column;gap:4px;min-width:100px}
+.q-prog-lbl{font-size:11px;color:rgba(255,255,255,.55)}
+.q-prog-track{height:4px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+.q-prog-fill{height:100%;border-radius:99px;transition:width .5s ease}
+.timer{font-size:13px;font-weight:700;color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums}
+.end-btn{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5;padding:7px 14px;border-radius:var(--r-sm);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:all var(--tr)}
+.end-btn:hover{background:rgba(239,68,68,.25)}
+/* smart chat messages */
+.si-msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+.si-msg{display:flex;gap:10px;align-items:flex-end}
+.si-msg.user{flex-direction:row-reverse}
+.si-av-small{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;font-weight:700;border:2px solid}
+.si-bubble{max-width:78%;padding:13px 16px;border-radius:16px;font-size:14px;line-height:1.75;word-break:break-word}
+.si-bubble-ai{background:var(--g5);color:var(--navy);border-radius:16px 16px 16px 4px}
+.si-bubble-user{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:16px 16px 4px 16px}
+.notice-warn{display:block;margin:6px 0;padding:8px 12px;border-radius:8px;background:rgba(239,68,68,.1);border-right:3px solid var(--err);font-size:13px;color:#fca5a5}
+.notice-info{display:block;margin:6px 0;padding:8px 12px;border-radius:8px;background:rgba(245,158,11,.1);border-right:3px solid var(--warn);font-size:13px;color:#fcd34d}
+.hint-box{margin:0 16px 8px;padding:12px 16px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:var(--r-sm);font-size:13px;color:var(--gold-d);line-height:1.6}
+.si-input-area{padding:14px 16px;border-top:1px solid var(--g4);display:flex;gap:10px;align-items:flex-end;flex-shrink:0;background:var(--white)}
+.hint-btn{width:38px;height:38px;border-radius:var(--r-sm);border:1.5px solid var(--g4);background:var(--white);cursor:pointer;font-size:18px;flex-shrink:0;transition:all var(--tr)}
+.hint-btn:hover{border-color:var(--gold);background:rgba(201,168,76,.08)}
+/* Result */
+.result-wrap{max-width:700px;margin:0 auto}
+.result-header{text-align:center;margin-bottom:32px}
+.result-icon{font-size:48px;margin-bottom:12px;display:block}
+.result-title{font-size:26px;font-weight:900;color:var(--navy);margin-bottom:6px}
+.result-sub{font-size:13px;color:var(--g2);margin-bottom:14px}
+.rec-badge{display:inline-flex;padding:8px 24px;border-radius:99px;font-size:15px;font-weight:800}
+.gauges-row{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:24px}
+.gauge{text-align:center}
+.gauge svg{display:block}
+.gauge-lbl{font-size:12px;font-weight:700;color:var(--g2);margin-top:6px}
+.main-bar-wrap{background:var(--g5);border-radius:var(--r-md);padding:20px;margin-bottom:20px}
+.main-bar-labels{display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px;font-weight:600;color:var(--g1)}
+.main-bar-track{height:10px;background:var(--g4);border-radius:99px;overflow:hidden}
+.main-bar-fill{height:100%;border-radius:99px;transition:width 1.2s ease}
+.sw-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:500px){.sw-grid{grid-template-columns:1fr}}
+.sw-card{border-radius:var(--r-md);padding:18px;border:1px solid}
+.sw-title{font-size:13px;font-weight:800;margin-bottom:8px}
+.sw-text{font-size:13px;color:var(--g2);line-height:1.7}
+.note-box{display:flex;gap:12px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:var(--r-md);padding:16px;margin-bottom:20px}
+.note-icon{font-size:20px;flex-shrink:0}
+.note-text{font-size:13px;color:var(--g1);line-height:1.7}
+.transcript{background:var(--g5);border-radius:var(--r-md);border:1px solid var(--g4);overflow:hidden;margin-bottom:24px}
+.transcript summary{padding:16px 20px;font-size:14px;font-weight:700;color:var(--navy);cursor:pointer;user-select:none}
+.transcript-body{padding:0 20px 20px;display:flex;flex-direction:column;gap:14px}
+.tr-msg{border-right:3px solid var(--g4);padding-right:12px}
+.tr-role{font-size:12px;font-weight:800;color:var(--g3);margin-bottom:4px}
+.tr-text{font-size:13px;color:var(--g1);line-height:1.7;white-space:pre-wrap}
+.result-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+
+/* ═══════════════════════════════════════════
+   API KEY MODAL
+═══════════════════════════════════════════ */
+#key-modal{position:fixed;inset:0;background:rgba(13,27,42,.8);backdrop-filter:blur(6px);z-index:9997;display:none;align-items:center;justify-content:center;padding:20px}
+#key-modal.show{display:flex}
+.key-box{background:var(--white);border-radius:var(--r-xl);padding:40px;max-width:460px;width:100%;text-align:center;box-shadow:var(--sh-xl)}
+.key-icon{font-size:48px;margin-bottom:16px;display:block}
+.key-title{font-size:20px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.key-sub{font-size:14px;color:var(--g2);line-height:1.7;margin-bottom:24px}
+.key-input{width:100%;padding:14px 18px;border:2px solid var(--g4);border-radius:var(--r-md);font-family:var(--font);font-size:14px;color:var(--navy);margin-bottom:12px;transition:border-color var(--tr)}
+.key-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+.key-note{font-size:12px;color:var(--g3);margin-top:12px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ════════════ NAVBAR ════════════ -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')">
+      <div class="nav-logo-icon">💼</div>
+      <div class="nav-logo-text">وظيفتي <em>AI</em></div>
+    </div>
+    <div class="nav-links">
+      <button class="nav-btn active" id="nav-home" onclick="showPage('home')"><span class="nav-lbl">الرئيسية</span> 🏠</button>
+      <button class="nav-btn" id="nav-cv" onclick="showPage('cv')"><span class="nav-lbl">السيرة الذاتية</span> 📄</button>
+      <button class="nav-btn" id="nav-interview" onclick="showPage('interview')"><span class="nav-lbl">المقابلة</span> 🎯</button>
+      <button class="nav-btn" id="nav-smart" onclick="showPage('smart')"><span class="nav-lbl">المقابلة الذكية</span> 🤖</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════ PAGES ════════════ -->
+<div id="pages" style="flex:1">
+
+<!-- ─── HOME ─── -->
+<div id="page-home">
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge au"><span class="hero-dot"></span> مدعوم بـ Claude AI</div>
+      <h1 class="hero-title au d1">سيرتك الذاتية <em>المثالية</em><br/>في ثوانٍ معدودة</h1>
+      <p class="hero-sub au d2">أدخل بياناتك مرة واحدة، وسيقوم الذكاء الاصطناعي بصياغة سيرة ذاتية احترافية بالعربية والإنجليزية مع نصائح مخصصة وأسئلة مقابلة متوقعة.</p>
+      <div class="hero-ctas au d3">
+        <button class="btn btn-primary btn-lg" onclick="showPage('cv')">🚀 ابدأ الآن — مجاناً</button>
+        <button class="btn btn-outline btn-lg" onclick="showPage('interview')">🎯 تحضير المقابلة</button>
+      </div>
+      <div class="hero-stats au d4">
+        <div class="stat"><div class="stat-n">5K+</div><div class="stat-l">سيرة منشأة</div></div>
+        <div class="stat"><div class="stat-n">98%</div><div class="stat-l">رضا المستخدمين</div></div>
+        <div class="stat"><div class="stat-n">3X</div><div class="stat-l">فرص القبول</div></div>
+        <div class="stat"><div class="stat-n">2</div><div class="stat-l">لغة مدعومة</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-sec">
+    <div class="container">
+      <div class="sec-hd">
+        <h2 class="sec-title">كل ما تحتاجه في مكان واحد</h2>
+        <p class="sec-sub">منصة متكاملة تجمع بين الذكاء الاصطناعي وخبرة التوظيف</p>
+      </div>
+      <div class="feat-grid">
+        <div class="feat-card au"><div class="feat-icon">📄</div><h3 class="feat-title">CV بالعربي والإنجليزي</h3><p class="feat-desc">يُنشئ الذكاء الاصطناعي سيرتك بلغتين بتنسيق احترافي يناسب سوق العمل.</p></div>
+        <div class="feat-card au d1"><div class="feat-icon">💡</div><h3 class="feat-title">نصائح تحسين مخصصة</h3><p class="feat-desc">يحلل ملفك ويقدم 5 توصيات عملية لرفع فرص قبولك لدى المسؤولين.</p></div>
+        <div class="feat-card au d2"><div class="feat-icon">🎯</div><h3 class="feat-title">أسئلة مقابلة ذكية</h3><p class="feat-desc">يتوقع أسئلة المقابلة حسب تخصصك ويساعدك على صياغة إجابات مقنعة.</p></div>
+        <div class="feat-card au d3"><div class="feat-icon">🖨️</div><h3 class="feat-title">تحميل PDF فوري</h3><p class="feat-desc">احفظ سيرتك كملف PDF جاهز للإرسال بقالب احترافي تختاره أنت.</p></div>
+        <div class="feat-card au d4"><div class="feat-icon">🗣️</div><h3 class="feat-title">محاكاة مقابلة حقيقية</h3><p class="feat-desc">تدرّب مع مُقابل AI يطرح أسئلة ويقيّم إجاباتك في الوقت الفعلي.</p></div>
+        <div class="feat-card au"><div class="feat-icon">🌐</div><h3 class="feat-title">دعم ثنائي اللغة</h3><p class="feat-desc">واجهة عربية كاملة مع مخرجات باللغتين العربية والإنجليزية.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps-sec">
+    <div class="container">
+      <div class="sec-hd"><h2 class="sec-title" style="color:#fff">كيف يعمل؟</h2><p class="sec-sub" style="color:rgba(255,255,255,.55)">4 خطوات بسيطة تفصلك عن سيرة ذاتية احترافية</p></div>
+      <div class="steps-grid">
+        <div class="step-card au"><div class="step-num">01</div><h3 class="step-title">أدخل بياناتك</h3><p class="step-desc">نموذج سهل وسريع في 4 خطوات فقط</p></div>
+        <div class="step-card au d1"><div class="step-num">02</div><h3 class="step-title">الذكاء الاصطناعي يعمل</h3><p class="step-desc">يحلل ويصيغ في ثوانٍ معدودة</p></div>
+        <div class="step-card au d2"><div class="step-num">03</div><h3 class="step-title">احصل على نتائجك</h3><p class="step-desc">CV + وصف + نصائح + أسئلة مقابلة</p></div>
+        <div class="step-card au d3"><div class="step-num">04</div><h3 class="step-title">تنزيل وإرسال</h3><p class="step-desc">PDF جاهز للإرسال فوراً</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="smart-banner">
+    <div class="container">
+      <div class="smart-inner">
+        <div>
+          <div class="smart-badge">✨ ميزة جديدة</div>
+          <h2 class="smart-title">محاكاة المقابلة الذكية AI</h2>
+          <p class="smart-sub">ذكاء اصطناعي يحاكي مُقابل توظيف حقيقي — يكشف إجاباتك الضعيفة، يسأل أسئلة متابعة ذكية، ويعطيك تقييماً مفصلاً بـ 4 معايير.</p>
+          <div class="smart-feats">
+            <span class="smart-feat">🔍 يكشف الإجابات العامة</span>
+            <span class="smart-feat">⚠️ يرصد الردود المنسوخة</span>
+            <span class="smart-feat">🔗 أسئلة متابعة تلقائية</span>
+            <span class="smart-feat">📊 تقييم 4 معايير</span>
+          </div>
+          <div class="smart-modes">
+            <span class="smart-mode-tag" style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#10b981">😊 HR لطيف</span>
+            <span class="smart-mode-tag" style="background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:#f59e0b">🎯 HR واقعي</span>
+            <span class="smart-mode-tag" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#ef4444">🔥 HR صارم</span>
+          </div>
+          <button class="smart-cta" onclick="showPage('smart')">🤖 ابدأ المقابلة الذكية <span>←</span></button>
+        </div>
+        <div class="mock-chat">
+          <div class="mock-bar">
+            <div class="mock-dot" style="background:#ef4444"></div>
+            <div class="mock-dot" style="background:#f59e0b"></div>
+            <div class="mock-dot" style="background:#10b981"></div>
+            <span class="mock-title">محاكاة المقابلة</span>
+          </div>
+          <div class="mock-msgs">
+            <div class="mock-ai"><span>🤖</span><div class="mock-bubble">أخبرني عن أصعب تحدٍّ تقني واجهته وكيف تعاملت معه؟</div></div>
+            <div class="mock-user"><div class="mock-bubble" style="background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.25)">اشتغلت على حل مشاكل تقنية كثيرة...</div><span>👤</span></div>
+            <div class="mock-ai"><span>🤖</span><div class="mock-bubble" style="border-right:3px solid #f59e0b;background:rgba(245,158,11,.08)">🔍 ملاحظة: الإجابة عامة. ما نوع المشكلة بالتحديد؟</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-sec">
+    <div class="container">
+      <div class="cta-box">
+        <h2 class="cta-title">جاهز لتغيير مسيرتك المهنية؟</h2>
+        <p class="cta-sub">انضم لآلاف الباحثين عن عمل الذين وجدوا فرصتهم بمساعدة وظيفتي AI</p>
+        <div class="cta-btns">
+          <button class="btn btn-primary btn-lg" onclick="showPage('cv')">إنشاء سيرتي الآن 🚀</button>
+          <button class="btn btn-outline btn-lg" style="color:#fff;border-color:rgba(255,255,255,.3)" onclick="showPage('smart')">محاكاة المقابلة 🤖</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /home -->
+
+<!-- ─── CV PAGE ─── -->
+<div id="page-cv" style="display:none">
+<div class="main">
+  <div class="section-hd"><h1>📄 إنشاء السيرة الذاتية</h1><p>أدخل بياناتك وسيتولى الذكاء الاصطناعي الباقي</p></div>
+  <div id="cv-form-area">
+    <div class="card au">
+      <!-- Steps bar -->
+      <div class="steps-bar" id="cv-steps-bar"></div>
+      <div class="card-body">
+        <div id="cv-step-header" style="margin-bottom:24px">
+          <div style="font-size:17px;font-weight:700;color:var(--navy)" id="cv-step-title"></div>
+          <div style="font-size:13px;color:var(--g2);margin-top:4px" id="cv-step-sub"></div>
+        </div>
+        <div id="cv-step-content"></div>
+        <div class="divider"></div>
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <button class="btn btn-secondary" id="cv-back-btn" onclick="cvStep(-1)">← السابق</button>
+          <button class="btn btn-primary" id="cv-next-btn" onclick="cvStep(1)">التالي →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="cv-results-area" style="display:none"></div>
+</div>
+</div><!-- /cv -->
+
+<!-- ─── INTERVIEW PAGE ─── -->
+<div id="page-interview" style="display:none">
+<div class="main">
+  <div class="section-hd"><h1>🎯 تحضير المقابلة</h1><p>محاكاة مقابلة وظيفية حقيقية مع الذكاء الاصطناعي</p></div>
+  <div id="iv-content"></div>
+</div>
+</div><!-- /interview -->
+
+<!-- ─── SMART INTERVIEW PAGE ─── -->
+<div id="page-smart" style="display:none">
+<div class="main">
+  <div id="si-content"></div>
+</div>
+</div><!-- /smart -->
+
+</div><!-- /pages -->
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer>صنع بـ <span>♥</span> • مدعوم بـ <span>Claude AI</span> • وظيفتي AI</footer>
+
+</div><!-- /app -->
+
+<!-- ════════════ OVERLAY ════════════ -->
+<div id="overlay"><div class="overlay-box"><div class="overlay-ring"></div><div class="overlay-msg" id="overlay-msg">جاري المعالجة...</div></div></div>
+
+<!-- ════════════ TOAST ════════════ -->
+<div id="toast"></div>
+
+<!-- ════════════ API KEY MODAL ════════════ -->
+<div id="key-modal">
+  <div class="key-box">
+    <span class="key-icon">🔑</span>
+    <h2 class="key-title">مفتاح Anthropic API</h2>
+    <p class="key-sub">لاستخدام ميزات الذكاء الاصطناعي، أدخل مفتاح Anthropic API الخاص بك. يُحفظ فقط في متصفحك ولا يُرسَل لأي خادم آخر.</p>
+    <input class="key-input" type="password" id="api-key-input" placeholder="sk-ant-..."/>
+    <button class="btn btn-primary btn-full" onclick="saveApiKey()">حفظ والمتابعة</button>
+    <p class="key-note">احصل على مفتاحك من <a href="https://console.anthropic.com" target="_blank" style="color:var(--gold)">console.anthropic.com</a> • يُخزَّن محلياً في المتصفح فقط</p>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════ */
+let API_KEY = localStorage.getItem('wazifati_key') || '';
+let currentPage = 'home';
+
+// CV state
+const cvForm = {
+  name:'', specialization:'', phone:'', email:'', city:'', linkedin:'', objective:'',
+  experiences:'', trainings:'', certs:'', skills:[], langs:[], template:'classic'
+};
+let cvCurrentStep = 1;
+const CV_STEPS = [
+  {label:'بيانات شخصية', icon:'👤', sub:'أدخل بياناتك الشخصية ومعلومات التواصل'},
+  {label:'الخبرات', icon:'💼', sub:'أضف خبراتك العملية والتدريبات والشهادات'},
+  {label:'المهارات', icon:'🛠️', sub:'حدد مهاراتك واللغات واختر قالب السيرة'},
+  {label:'مراجعة', icon:'✅', sub:'راجع بياناتك قبل إرسالها للذكاء الاصطناعي'},
+];
+
+// Interview state
+let ivPhase = 'setup'; // setup | chat | summary
+let ivConfig = { specialization:'', category:'mixed', difficulty:'medium' };
+let ivMessages = [];
+let ivQCount = 0;
+let ivLoading = false;
+let ivScore = null;
+
+// Smart interview state
+let siPhase = 'setup'; // setup | brief | chat | result
+let siMode = 'realistic';
+let siSpec = '';
+let siCustomSpec = '';
+let siMessages = [];
+let siLoading = false;
+let siQAsked = 0;
+let siEvaluation = null;
+let siElapsed = 0;
+let siTimerRef = null;
+let siInput = '';
+let siShowHint = false;
+const SI_MAX_Q = 6;
+
+const SI_MODES = [
+  {id:'kind', label:'HR لطيف', emoji:'😊', color:'#10b981', colorRgb:'16,185,129', desc:'داعم وبنّاء، يساعدك على التعبير بحرية'},
+  {id:'realistic', label:'HR واقعي', emoji:'🎯', color:'#f59e0b', colorRgb:'245,158,11', desc:'محترف ومتوازن، كمقابلة حقيقية تماماً'},
+  {id:'strict', label:'HR صارم', emoji:'🔥', color:'#ef4444', colorRgb:'239,68,68', desc:'صارم ومتطلّب، يكشف نقاط ضعفك فوراً'},
+];
+const SI_SECTORS = [
+  'هندسة البرمجيات','علم البيانات','الأمن السيبراني','إدارة المشاريع',
+  'التسويق الرقمي','المحاسبة والمالية','الموارد البشرية','الطب والصحة',
+  'الهندسة المدنية','التصميم الجرافيكي','المبيعات','القانون','أخرى',
+];
+
+/* ════════════════════════════════════════════
+   UTILS
+════════════════════════════════════════════ */
+function showPage(page) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+page).style.display = 'block';
+  document.getElementById('nav-'+page)?.classList.add('active');
+  currentPage = page;
+  window.scrollTo(0,0);
+  if (page === 'cv') renderCVPage();
+  if (page === 'interview') renderIVPage();
+  if (page === 'smart') renderSIPage();
+}
+
+function showOverlay(msg) {
+  document.getElementById('overlay-msg').textContent = msg || 'جاري المعالجة...';
+  document.getElementById('overlay').classList.add('show');
+}
+function hideOverlay() { document.getElementById('overlay').classList.remove('show'); }
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  const el = document.createElement('div');
+  el.className = `toast-item toast-${type}`;
+  el.innerHTML = (type === 'success' ? '✅ ' : '❌ ') + msg;
+  t.appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+
+function esc(str='') {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function requireKey(cb) {
+  if (API_KEY) { cb(); return; }
+  document.getElementById('key-modal').classList.add('show');
+  document._pendingCb = cb;
+}
+function saveApiKey() {
+  const v = document.getElementById('api-key-input').value.trim();
+  if (!v) { showToast('أدخل المفتاح أولاً','error'); return; }
+  API_KEY = v;
+  localStorage.setItem('wazifati_key', v);
+  document.getElementById('key-modal').classList.remove('show');
+  showToast('تم حفظ المفتاح ✓');
+  if (document._pendingCb) { document._pendingCb(); document._pendingCb = null; }
+}
+
+async function callClaude(system, user, maxTokens=1200) {
+  if (!API_KEY) throw new Error('API key غير مضبوط');
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':API_KEY,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true',
+    },
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:maxTokens,
+      system,
+      messages:[{role:'user',content:user}],
+    }),
+  });
+  if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e?.error?.message || `خطأ ${res.status}`); }
+  const d = await res.json();
+  return d.content?.map(b=>b.text||'').join('') || '';
+}
+
+async function callClaudeHistory(system, history, maxTokens=700) {
+  if (!API_KEY) throw new Error('API key غير مضبوط');
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':API_KEY,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true',
+    },
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:maxTokens,
+      system,
+      messages:history.map(m=>({role:m.role,content:m.content})),
+    }),
+  });
+  if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e?.error?.message || `خطأ ${res.status}`); }
+  const d = await res.json();
+  return d.content?.map(b=>b.text||'').join('') || '';
+}
+
+function fmtTime(s) {
+  return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+}
+
+/* ════════════════════════════════════════════
+   CV PAGE
+════════════════════════════════════════════ */
+function buildProfileText() {
+  return `
+الاسم الكامل: ${cvForm.name}
+التخصص / المسمى الوظيفي: ${cvForm.specialization}
+الهاتف: ${cvForm.phone}
+البريد الإلكتروني: ${cvForm.email}
+المدينة: ${cvForm.city}
+LinkedIn: ${cvForm.linkedin}
+الهدف الوظيفي: ${cvForm.objective}
+المهارات: ${cvForm.skills.join(', ')}
+اللغات: ${cvForm.langs.join(', ')}
+الخبرات العملية:
+${cvForm.experiences}
+التدريب التعاوني / الميداني:
+${cvForm.trainings}
+الشهادات والدورات:
+${cvForm.certs}
+  `.trim();
+}
+
+function renderCVPage() {
+  const resultsArea = document.getElementById('cv-results-area');
+  if (resultsArea.style.display === 'block') return;
+  cvCurrentStep = 1;
+  renderCVStep();
+}
+
+function renderCVStep() {
+  const steps = CV_STEPS;
+  // Steps bar
+  const bar = document.getElementById('cv-steps-bar');
+  bar.innerHTML = steps.map((s,i) => {
+    const n = i+1;
+    const cls = n === cvCurrentStep ? 'step-active' : n < cvCurrentStep ? 'step-done' : '';
+    const lineAfter = i < steps.length-1 ? `<div class="step-line"></div>` : '';
+    return `<div class="step-item ${cls}">
+      <div class="step-circle">${n < cvCurrentStep ? '✓' : n}</div>
+      <div class="step-lbl">${s.icon} ${s.label}</div>
+    </div>${lineAfter}`;
+  }).join('');
+  // Header
+  document.getElementById('cv-step-title').textContent = steps[cvCurrentStep-1].icon+' '+steps[cvCurrentStep-1].label;
+  document.getElementById('cv-step-sub').textContent = steps[cvCurrentStep-1].sub;
+  // Content
+  const content = document.getElementById('cv-step-content');
+  if (cvCurrentStep === 1) content.innerHTML = renderCVStep1();
+  else if (cvCurrentStep === 2) content.innerHTML = renderCVStep2();
+  else if (cvCurrentStep === 3) content.innerHTML = renderCVStep3();
+  else if (cvCurrentStep === 4) content.innerHTML = renderCVStep4();
+  // Buttons
+  const back = document.getElementById('cv-back-btn');
+  const next = document.getElementById('cv-next-btn');
+  back.disabled = cvCurrentStep === 1;
+  if (cvCurrentStep < 4) {
+    next.textContent = 'التالي →';
+    next.onclick = () => cvStep(1);
+  } else {
+    next.textContent = '🚀 إنشاء السيرة بالذكاء الاصطناعي';
+    next.onclick = () => generateCV();
+  }
+  updateCVNextBtn();
+  // Bind inputs
+  bindCVInputs();
+  // Tags
+  if (cvCurrentStep === 3) {
+    renderTagsInput('tags-skills', cvForm.skills, v => { cvForm.skills = v; });
+    renderTagsInput('tags-langs', cvForm.langs, v => { cvForm.langs = v; });
+  }
+}
+
+function renderCVStep1() {
+  return `<div class="form-grid">
+    <div class="fg"><label><span class="req">*</span>الاسم الكامل</label><input type="text" id="f-name" value="${esc(cvForm.name)}" placeholder="محمد علي الأحمدي"/></div>
+    <div class="fg"><label><span class="req">*</span>التخصص / المسمى الوظيفي</label><input type="text" id="f-spec" value="${esc(cvForm.specialization)}" placeholder="مهندس برمجيات"/></div>
+    <div class="fg"><label>رقم الجوال</label><input type="tel" id="f-phone" value="${esc(cvForm.phone)}" placeholder="05XXXXXXXX"/></div>
+    <div class="fg"><label>البريد الإلكتروني</label><input type="email" id="f-email" value="${esc(cvForm.email)}" placeholder="example@email.com"/></div>
+    <div class="fg"><label>المدينة</label><input type="text" id="f-city" value="${esc(cvForm.city)}" placeholder="الرياض"/></div>
+    <div class="fg"><label>LinkedIn</label><input type="text" id="f-linkedin" value="${esc(cvForm.linkedin)}" placeholder="linkedin.com/in/username"/></div>
+    <div class="fg col-2"><label>الهدف الوظيفي</label><textarea id="f-objective" rows="3" placeholder="أهدف إلى الانضمام لفريق محترف للمساهمة في...">${esc(cvForm.objective)}</textarea></div>
+  </div>`;
+}
+
+function renderCVStep2() {
+  return `<div style="display:flex;flex-direction:column;gap:20px">
+    <div class="fg"><label>الخبرات العملية</label><textarea id="f-exp" rows="6" placeholder="مثال:\nمطور واجهات أمامية - شركة XYZ  (2022–2024)\n- طورت تطبيقات ويب باستخدام React\n- قادة فريق من 3 مطورين">${esc(cvForm.experiences)}</textarea></div>
+    <div class="fg"><label>التدريب التعاوني / الميداني</label><textarea id="f-train" rows="4" placeholder="مثال: تدريب في أرامكو السعودية - قسم تقنية المعلومات (صيف 2023)">${esc(cvForm.trainings)}</textarea></div>
+    <div class="fg"><label>الشهادات والدورات</label><textarea id="f-certs" rows="3" placeholder="مثال: AWS Certified Solutions Architect, Google Data Analytics">${esc(cvForm.certs)}</textarea></div>
+  </div>`;
+}
+
+function renderCVStep3() {
+  const tpls = [{id:'classic',label:'كلاسيكي',color:'#0f4c81'},{id:'modern',label:'عصري',color:'#1a1a2e'},{id:'elegant',label:'أنيق',color:'#2d6a4f'}];
+  return `<div style="display:flex;flex-direction:column;gap:24px">
+    <div class="fg"><label>المهارات التقنية والشخصية</label><div id="tags-skills" class="tags-wrap"></div><div class="hint">اكتب مهارة واضغط Enter مثال: Python، React، إدارة المشاريع</div></div>
+    <div class="fg"><label>اللغات</label><div id="tags-langs" class="tags-wrap"></div><div class="hint">اكتب لغة واضغط Enter مثال: العربية (اللغة الأم)، الإنجليزية (متقدم)</div></div>
+    <div>
+      <label style="display:block;margin-bottom:14px;font-size:13px;font-weight:700;color:var(--navy)">قالب السيرة الذاتية</label>
+      <div class="tpl-grid">
+        ${tpls.map(t => `<div class="tpl-card ${cvForm.template===t.id?'tpl-sel':''}" onclick="selectTpl('${t.id}')">
+          <div class="tpl-swatch" style="background:${t.color}">${cvForm.template===t.id?'✓':''}</div>
+          <div class="tpl-lbl">${t.label}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCVStep4() {
+  const rows = [['الاسم',cvForm.name],['التخصص',cvForm.specialization],['الهاتف',cvForm.phone],['البريد',cvForm.email],['المدينة',cvForm.city],['LinkedIn',cvForm.linkedin]].filter(([,v])=>v);
+  const skillsHtml = cvForm.skills.length ? `<div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:6px">${cvForm.skills.map(s=>`<span class="chip chip-gold">${esc(s)}</span>`).join('')}</div>` : '';
+  return `<div style="display:flex;flex-direction:column;gap:20px">
+    <div class="review-box">
+      <div class="review-title">📋 ملخص البيانات</div>
+      <div class="review-grid">${rows.map(([l,v])=>`<div class="review-row"><span class="review-lbl">${l}</span><span class="review-val">${esc(v)}</span></div>`).join('')}</div>
+      ${skillsHtml}
+    </div>
+    <div class="ai-box">
+      <div style="font-size:32px">🤖</div>
+      <div>
+        <div class="ai-box-title">الذكاء الاصطناعي سيقوم بـ:</div>
+        ${['إنشاء CV احترافي بالعربي والإنجليزي','صياغة وصف وظيفي مميز','تحليل نقاط القوة وتقديم 5 نصائح','إعداد 8 أسئلة مقابلة متوقعة'].map(i=>`<div class="ai-box-item"><span style="color:var(--teal)">✓</span> ${i}</div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function bindCVInputs() {
+  const bind = (id, field) => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', e => { cvForm[field] = e.target.value; updateCVNextBtn(); });
+  };
+  bind('f-name','name'); bind('f-spec','specialization'); bind('f-phone','phone');
+  bind('f-email','email'); bind('f-city','city'); bind('f-linkedin','linkedin');
+  bind('f-objective','objective'); bind('f-exp','experiences');
+  bind('f-train','trainings'); bind('f-certs','certs');
+}
+
+function updateCVNextBtn() {
+  const btn = document.getElementById('cv-next-btn');
+  if (!btn) return;
+  if (cvCurrentStep === 1) btn.disabled = !(cvForm.name.trim() && cvForm.specialization.trim());
+  else if (cvCurrentStep === 4) btn.disabled = !(cvForm.name && cvForm.specialization);
+  else btn.disabled = false;
+}
+
+function cvStep(dir) {
+  if (dir === 1 && cvCurrentStep === 1) {
+    cvForm.name = document.getElementById('f-name')?.value || cvForm.name;
+    cvForm.specialization = document.getElementById('f-spec')?.value || cvForm.specialization;
+    cvForm.phone = document.getElementById('f-phone')?.value || '';
+    cvForm.email = document.getElementById('f-email')?.value || '';
+    cvForm.city = document.getElementById('f-city')?.value || '';
+    cvForm.linkedin = document.getElementById('f-linkedin')?.value || '';
+    cvForm.objective = document.getElementById('f-objective')?.value || '';
+    if (!cvForm.name.trim() || !cvForm.specialization.trim()) { showToast('الاسم والتخصص مطلوبان','error'); return; }
+  }
+  if (dir === 1 && cvCurrentStep === 2) {
+    cvForm.experiences = document.getElementById('f-exp')?.value || '';
+    cvForm.trainings = document.getElementById('f-train')?.value || '';
+    cvForm.certs = document.getElementById('f-certs')?.value || '';
+  }
+  const newStep = cvCurrentStep + dir;
+  if (newStep < 1 || newStep > 4) return;
+  cvCurrentStep = newStep;
+  renderCVStep();
+}
+
+function selectTpl(id) {
+  cvForm.template = id;
+  document.querySelectorAll('.tpl-card').forEach(c => {
+    const t = c.onclick.toString().match(/'(\w+)'/)?.[1];
+    c.classList.toggle('tpl-sel', t === id);
+    c.querySelector('.tpl-swatch').textContent = t === id ? '✓' : '';
+  });
+}
+
+async function generateCV() {
+  requireKey(async () => {
+    showOverlay('جاري إنشاء السيرة بالعربي...');
+    const data = buildProfileText();
+    try {
+      const cvAr = await callClaude('أنت خبير موارد بشرية. اكتب سيرة ذاتية احترافية كاملة باللغة العربية بأقسام واضحة ومنظمة.', `أنشئ سيرة ذاتية احترافية لهذا الشخص:\n${data}`, 1200);
+      document.getElementById('overlay-msg').textContent = 'جاري الترجمة للإنجليزية...';
+      const cvEn = await callClaude('You are a professional HR expert. Write a complete, well-formatted English CV.', `Create a professional English CV:\n${data}`, 1200);
+      document.getElementById('overlay-msg').textContent = 'جاري صياغة الوصف الوظيفي...';
+      const desc = await callClaude('أنت خبير توظيف. اكتب وصفاً وظيفياً موجزاً يُبرز نقاط قوة المرشح.', `اكتب وصفاً وظيفياً قوياً في 3-4 جمل:\n${data}`, 400);
+      document.getElementById('overlay-msg').textContent = 'جاري تحليل نقاط التحسين...';
+      const tips = await callClaude('أنت مستشار مهني. قدم نصائح عملية ومحددة لتحسين السيرة الذاتية.', `قدم 5 نصائح محددة لتحسين هذه السيرة وزيادة فرص القبول:\n${data}`, 600);
+      document.getElementById('overlay-msg').textContent = 'جاري إعداد أسئلة المقابلة...';
+      const questions = await callClaude('أنت مُقابل توظيف خبير. اطرح أسئلة مقابلة ذكية وموجهة للتخصص.', `اكتب 8 أسئلة مقابلة متوقعة لشخص تخصصه: ${cvForm.specialization}. قدم كل سؤال في سطر منفصل مرقم.`, 600);
+      hideOverlay();
+      renderCVResults({cvAr, cvEn, desc, tips, questions});
+      showToast('تم إنشاء سيرتك الذاتية بنجاح 🎉');
+    } catch(e) {
+      hideOverlay();
+      showToast(e.message || 'حدث خطأ. تأكد من API key.', 'error');
+    }
+  });
+}
+
+function renderCVResults(r) {
+  document.getElementById('cv-form-area').style.display = 'none';
+  const area = document.getElementById('cv-results-area');
+  area.style.display = 'block';
+  const qs = r.questions.split(/\n+/).filter(l=>l.trim().match(/^[\d]/)).slice(0,8);
+  area.innerHTML = `<div style="display:flex;flex-direction:column;gap:24px" class="au">
+    <div class="result-actions">
+      <button class="btn btn-primary" onclick="downloadPDF()">🖨️ تحميل PDF</button>
+      <button class="btn btn-teal" onclick="backToForm()">✏️ تعديل البيانات</button>
+      <button class="btn btn-secondary btn-sm" onclick="newCV()">🔄 سيرة جديدة</button>
+    </div>
+    <div class="result-grid">
+      <div class="result-card as"><div class="result-card-hd"><span>📄 السيرة الذاتية — عربي</span><span class="chip chip-gold">AR</span></div><pre class="result-text" id="cvAr-text">${esc(r.cvAr)}</pre></div>
+      <div class="result-card as d1"><div class="result-card-hd"><span>📄 CV — English</span><span class="chip chip-teal">EN</span></div><pre class="result-text ltr">${esc(r.cvEn)}</pre></div>
+    </div>
+    <div class="result-grid">
+      <div class="result-card as d2"><div class="result-card-hd"><span>💼 الوصف الوظيفي</span></div><pre class="result-text">${esc(r.desc)}</pre></div>
+      <div class="result-card as d3"><div class="result-card-hd"><span>💡 نصائح التحسين</span></div><pre class="result-text">${esc(r.tips)}</pre></div>
+    </div>
+    <div class="card as d4">
+      <div class="card-hd"><div class="card-title"><div class="card-icon">🎯</div>أسئلة المقابلة المتوقعة</div><span class="chip chip-teal">${esc(cvForm.specialization)}</span></div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:12px">
+        ${qs.map((q,i)=>`<div class="q-card"><div class="q-num">${i+1}</div><div class="q-text">${esc(q.replace(/^[\d\.\-•]+\s*/,''))}</div></div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+  window._cvResults = r;
+  window.scrollTo(0,0);
+}
+
+function backToForm() {
+  document.getElementById('cv-results-area').style.display = 'none';
+  document.getElementById('cv-form-area').style.display = 'block';
+  renderCVStep();
+}
+function newCV() {
+  Object.assign(cvForm, {name:'',specialization:'',phone:'',email:'',city:'',linkedin:'',objective:'',experiences:'',trainings:'',certs:'',skills:[],langs:[],template:'classic'});
+  document.getElementById('cv-results-area').style.display = 'none';
+  document.getElementById('cv-form-area').style.display = 'block';
+  cvCurrentStep = 1;
+  renderCVStep();
+}
+
+function downloadPDF() {
+  if (!window._cvResults) return;
+  const t = {classic:{accent:'#0f4c81'},modern:{accent:'#1a1a2e'},elegant:{accent:'#2d6a4f'}}[cvForm.template] || {accent:'#0f4c81'};
+  const cvText = window._cvResults.cvAr;
+  const html = `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"/><title>سيرة ذاتية - ${esc(cvForm.name)}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Cairo',sans-serif;direction:rtl;background:#fff;color:#1a1a2e;padding:0}.wrap{max-width:794px;margin:0 auto;background:#fff;min-height:1123px}.head{background:${t.accent};color:#fff;padding:44px 48px 36px}.head-name{font-size:34px;font-weight:900;margin-bottom:6px}.head-role{font-size:16px;opacity:.8;margin-bottom:14px}.head-meta{display:flex;gap:24px;flex-wrap:wrap;font-size:13px;opacity:.75}.head-meta span{display:flex;align-items:center;gap:5px}.body{padding:40px 48px}.section{margin-bottom:30px}.sec-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};border-bottom:2px solid ${t.accent};padding-bottom:7px;margin-bottom:14px;font-weight:700}.sec-body{font-size:14px;line-height:1.9;color:#374151;white-space:pre-wrap}.skills-wrap{display:flex;flex-wrap:wrap;gap:8px}.skill-tag{background:rgba(0,0,0,.06);padding:4px 14px;border-radius:99px;font-size:13px;font-weight:600}@media print{body{padding:0;background:#fff}.wrap{box-shadow:none}@page{margin:0;size:A4}}</style>
+</head><body><div class="wrap">
+<div class="head"><div class="head-name">${esc(cvForm.name)}</div><div class="head-role">${esc(cvForm.specialization)}</div>
+<div class="head-meta">${cvForm.city?`<span>📍 ${esc(cvForm.city)}</span>`:''} ${cvForm.phone?`<span>📞 ${esc(cvForm.phone)}</span>`:''} ${cvForm.email?`<span>✉ ${esc(cvForm.email)}</span>`:''} ${cvForm.linkedin?`<span>🔗 ${esc(cvForm.linkedin)}</span>`:''}</div>
+</div><div class="body">
+${cvForm.objective?`<div class="section"><div class="sec-title">الهدف الوظيفي</div><div class="sec-body">${esc(cvForm.objective)}</div></div>`:''}
+<div class="section"><div class="sec-title">السيرة الذاتية</div><div class="sec-body">${esc(cvText)}</div></div>
+${cvForm.skills.length?`<div class="section"><div class="sec-title">المهارات</div><div class="skills-wrap">${cvForm.skills.map(s=>`<span class="skill-tag">${esc(s)}</span>`).join('')}</div></div>`:''}
+${cvForm.langs.length?`<div class="section"><div class="sec-title">اللغات</div><div class="skills-wrap">${cvForm.langs.map(l=>`<span class="skill-tag">${esc(l)}</span>`).join('')}</div></div>`:''}
+${cvForm.experiences?`<div class="section"><div class="sec-title">الخبرات العملية</div><div class="sec-body">${esc(cvForm.experiences)}</div></div>`:''}
+${cvForm.trainings?`<div class="section"><div class="sec-title">التدريب التعاوني</div><div class="sec-body">${esc(cvForm.trainings)}</div></div>`:''}
+${cvForm.certs?`<div class="section"><div class="sec-title">الشهادات والدورات</div><div class="sec-body">${esc(cvForm.certs)}</div></div>`:''}
+</div></div><script>window.onload=()=>{window.print()}<\/script></body></html>`;
+  const win = window.open('','_blank');
+  if (!win) { showToast('يرجى السماح بالنوافذ المنبثقة','error'); return; }
+  win.document.write(html); win.document.close();
+}
+
+/* ════════════════════════════════════════════
+   TAGS INPUT
+════════════════════════════════════════════ */
+function renderTagsInput(containerId, tags, onChange) {
+  const wrap = document.getElementById(containerId);
+  if (!wrap) return;
+  function render() {
+    wrap.innerHTML = tags.map((t,i) => `<span class="tag-item">${esc(t)}<span class="tag-del" onclick="removeTag('${containerId}',${i})">✕</span></span>`).join('');
+    const inp = document.createElement('input');
+    inp.className = 'tag-input'; inp.placeholder = 'اكتب واضغط Enter...';
+    inp.addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === ',') && inp.value.trim()) {
+        e.preventDefault();
+        tags.push(inp.value.trim()); inp.value = '';
+        onChange(tags); render();
+      } else if (e.key === 'Backspace' && !inp.value && tags.length) {
+        tags.pop(); onChange(tags); render();
+      }
+    });
+    wrap.appendChild(inp);
+    wrap.onclick = () => inp.focus();
+  }
+  window._tagContainers = window._tagContainers || {};
+  window._tagContainers[containerId] = {tags, onChange, render};
+  render();
+}
+function removeTag(cid, idx) {
+  const c = window._tagContainers?.[cid];
+  if (!c) return;
+  c.tags.splice(idx,1); c.onChange(c.tags); c.render();
+}
+
+/* ════════════════════════════════════════════
+   INTERVIEW PAGE
+════════════════════════════════════════════ */
+const IV_CATS = [
+  {id:'behavioral',label:'سلوكية',icon:'🧠'},{id:'technical',label:'تقنية',icon:'⚙️'},
+  {id:'hr',label:'HR',icon:'👔'},{id:'mixed',label:'مختلطة',icon:'🎯'},
+];
+const IV_DIFF = [
+  {id:'easy',label:'مبتدئ',color:'var(--ok)'},{id:'medium',label:'متوسط',color:'var(--warn)'},{id:'hard',label:'متقدم',color:'var(--err)'},
+];
+
+function renderIVPage() {
+  ivPhase = 'setup'; ivMessages = []; ivQCount = 0; ivLoading = false; ivScore = null;
+  ivConfig = { specialization:'', category:'mixed', difficulty:'medium' };
+  document.getElementById('iv-content').innerHTML = renderIVSetup();
+}
+
+function renderIVSetup() {
+  return `<div class="iv-setup au">
+    <span class="iv-icon">🎯</span>
+    <h2 class="iv-title">مقابلة وظيفية تجريبية</h2>
+    <p class="iv-sub">تدرّب مع مُقابل AI ذكي يطرح أسئلة حقيقية ويقيّم أداءك</p>
+    <div class="card">
+      <div class="card-body" style="display:flex;flex-direction:column;gap:20px">
+        <div class="fg"><label><span class="req">*</span>التخصص / المسمى الوظيفي</label>
+          <input type="text" id="iv-spec" placeholder="مثال: مهندس برمجيات، محلل بيانات، مدير مشاريع"
+            onkeydown="if(event.key==='Enter')startIV()" oninput="ivConfig.specialization=this.value"/>
+        </div>
+        <div class="fg"><label>نوع المقابلة</label>
+          <div class="opt-grid">${IV_CATS.map(c=>`<div class="opt-card ${ivConfig.category===c.id?'opt-sel':''}" id="iv-cat-${c.id}" onclick="selectIVCat('${c.id}')"><span style="font-size:22px">${c.icon}</span><span style="font-weight:700;font-size:13px">${c.label}</span></div>`).join('')}</div>
+        </div>
+        <div class="fg"><label>مستوى الصعوبة</label>
+          <div class="diff-grid">${IV_DIFF.map(d=>`<div class="diff-card ${ivConfig.difficulty===d.id?'diff-sel':''}" id="iv-diff-${d.id}" onclick="selectIVDiff('${d.id}')" style="${ivConfig.difficulty===d.id?`border-color:${d.color};background:${d.color}12`:''}">${d.label}</div>`).join('')}</div>
+        </div>
+        <button class="btn btn-primary btn-full btn-lg" id="iv-start-btn" onclick="startIV()" disabled>🚀 ابدأ المقابلة الآن</button>
+      </div>
+    </div>
+    <div class="iv-tips">
+      ${['استعد للإجابة بالعربية الفصحى أو الفصيحة','كن صريحاً وأعطِ أمثلة من تجربتك الحقيقية','لا تتسرع في الإجابة — فكّر ثم اكتب'].map((t,i)=>`<div class="iv-tip"><span class="iv-tip-n">${i+1}</span><span>${t}</span></div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function selectIVCat(id) {
+  ivConfig.category = id;
+  document.querySelectorAll('[id^="iv-cat-"]').forEach(el => el.classList.toggle('opt-sel', el.id === `iv-cat-${id}`));
+}
+function selectIVDiff(id) {
+  ivConfig.difficulty = id;
+  document.querySelectorAll('[id^="iv-diff-"]').forEach(el => {
+    const d = IV_DIFF.find(x=>x.id===el.id.replace('iv-diff-',''));
+    const sel = el.id === `iv-diff-${id}`;
+    el.classList.toggle('diff-sel', sel);
+    el.style.borderColor = sel && d ? d.color : '';
+    el.style.background = sel && d ? `${d.color}12` : '';
+  });
+}
+
+// Wire spec input -> enable btn
+document.addEventListener('input', e => {
+  if (e.target.id === 'iv-spec') {
+    ivConfig.specialization = e.target.value;
+    const btn = document.getElementById('iv-start-btn');
+    if (btn) btn.disabled = !ivConfig.specialization.trim();
+  }
+});
+
+function ivSystemPrompt() {
+  const catLabel = ivConfig.category==='behavioral'?'سلوكية':ivConfig.category==='technical'?'تقنية':ivConfig.category==='hr'?'موارد بشرية':'شاملة';
+  const diffLabel = ivConfig.difficulty==='easy'?'مبتدئ':ivConfig.difficulty==='medium'?'متوسط':'متقدم';
+  return `أنت مُقابل توظيف محترف باللغة العربية. تجري مقابلة ${catLabel} لمرشح في تخصص "${ivConfig.specialization}" بمستوى صعوبة ${diffLabel}.\n\nقواعد:\n- ابدأ بسؤال واحد فقط في كل رسالة\n- بعد إجابة المرشح، قدم تقييماً موجزاً (جملة أو جملتين) ثم اطرح السؤال التالي\n- اجعل الأسئلة متدرجة الصعوبة\n- بعد 6 أسئلة اكتب "انتهت المقابلة" وقدم ملخصاً شاملاً مع نقاط قوة وضعف ونسبة مئوية للأداء\n- كن محترفاً وبنّاءً في ملاحظاتك`;
+}
+
+async function startIV() {
+  if (!ivConfig.specialization.trim()) { showToast('يرجى إدخال التخصص','error'); return; }
+  requireKey(async () => {
+    showOverlay('جاري تحضير المقابلة...');
+    try {
+      const sys = ivSystemPrompt();
+      const reply = await callClaude(sys, 'ابدأ المقابلة بتحية احترافية موجزة ثم اطرح السؤال الأول مباشرة.', 800);
+      ivMessages = [{role:'assistant',content:reply}];
+      ivPhase = 'chat'; ivQCount = 1;
+      hideOverlay();
+      renderIVChat();
+    } catch(e) {
+      hideOverlay();
+      showToast('تعذر بدء المقابلة. تأكد من API key.','error');
+    }
+  });
+}
+
+function renderIVChat() {
+  const content = document.getElementById('iv-content');
+  content.innerHTML = `<div class="chat-root au">
+    <div class="chat-hd">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="chat-av">🤖</div>
+        <div>
+          <div class="chat-name">مُقابل AI — ${esc(ivConfig.specialization)}</div>
+          <div class="chat-status"><span class="status-dot"></span><span id="iv-status">سؤال ${ivQCount} من 6</span></div>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm" style="color:rgba(255,255,255,.6)" onclick="renderIVPage()">إنهاء ✕</button>
+    </div>
+    <div class="chat-msgs" id="iv-msgs">${renderIVMessages()}</div>
+    <div id="iv-input-area">${ivPhase!=='summary' ? renderIVInputHTML() : renderIVScoreHTML()}</div>
+  </div>`;
+  scrollIVDown();
+}
+
+function renderIVMessages() {
+  return ivMessages.map(m => {
+    const isAI = m.role === 'assistant';
+    return `<div class="msg-row ${isAI?'':'user'}">
+      ${isAI?`<div class="msg-av msg-av-ai">🤖</div>`:''}
+      <div class="bubble ${isAI?'bubble-ai':'bubble-user'}" style="white-space:pre-wrap">${esc(m.content)}</div>
+      ${!isAI?`<div class="msg-av msg-av-user">أ</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderIVInputHTML() {
+  return `<div class="chat-input-area">
+    <textarea class="chat-textarea" id="iv-textarea" rows="2" placeholder="اكتب إجابتك هنا... (Enter للإرسال، Shift+Enter لسطر جديد)"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendIV()}"
+      ${ivLoading?'disabled':''}></textarea>
+    <button class="send-btn" id="iv-send-btn" onclick="sendIV()" ${ivLoading?'disabled':''}>
+      ${ivLoading?'<span class="spinner spinner-dark"></span>':'إرسال ←'}
+    </button>
+  </div>`;
+}
+
+function renderIVScoreHTML() {
+  const color = ivScore>=75?'var(--ok)':ivScore>=50?'var(--warn)':'var(--err)';
+  return `<div class="score-bar">
+    <div class="score-label">نتيجتك الإجمالية</div>
+    <div class="score-val" style="color:${color}">${ivScore}%</div>
+    <div class="score-track"><div class="score-fill" style="width:${ivScore}%;background:${color}"></div></div>
+    <div class="score-actions">
+      <button class="btn btn-primary" onclick="renderIVPage()">🔄 مقابلة جديدة</button>
+      <button class="btn btn-teal" onclick="showPage('cv')">📄 إنشاء CV</button>
+    </div>
+  </div>`;
+}
+
+function scrollIVDown() {
+  setTimeout(() => { const el = document.getElementById('iv-msgs'); if (el) el.scrollTop = el.scrollHeight; }, 50);
+}
+
+async function sendIV() {
+  const ta = document.getElementById('iv-textarea');
+  if (!ta || !ta.value.trim() || ivLoading) return;
+  const text = ta.value.trim(); ta.value = '';
+  ivMessages.push({role:'user',content:text});
+  ivLoading = true;
+  appendIVMsg('user', text);
+  appendIVTyping();
+  try {
+    const sys = ivSystemPrompt();
+    const reply = await callClaudeHistory(sys, ivMessages, 800);
+    removeIVTyping();
+    ivMessages.push({role:'assistant',content:reply});
+    appendIVMsg('assistant', reply);
+    ivQCount++;
+    if (reply.includes('انتهت المقابلة')) {
+      ivPhase = 'summary';
+      const pct = reply.match(/(\d+)%/);
+      ivScore = pct ? Math.min(100,parseInt(pct[1])) : 75;
+      document.getElementById('iv-status').textContent = 'انتهت المقابلة';
+      document.getElementById('iv-input-area').innerHTML = renderIVScoreHTML();
+    } else {
+      document.getElementById('iv-status').textContent = `سؤال ${Math.min(ivQCount,6)} من 6`;
+      document.getElementById('iv-input-area').innerHTML = renderIVInputHTML();
+      document.getElementById('iv-textarea')?.focus();
+    }
+  } catch(e) {
+    removeIVTyping();
+    appendIVMsg('assistant', '⚠️ حدث خطأ في الاتصال. حاول مجدداً.');
+    document.getElementById('iv-input-area').innerHTML = renderIVInputHTML();
+  } finally { ivLoading = false; }
+}
+
+function appendIVMsg(role, content) {
+  const msgs = document.getElementById('iv-msgs');
+  if (!msgs) return;
+  const isAI = role === 'assistant';
+  const div = document.createElement('div');
+  div.className = `msg-row ${isAI?'':'user'} au`;
+  div.innerHTML = `${isAI?`<div class="msg-av msg-av-ai">🤖</div>`:''}<div class="bubble ${isAI?'bubble-ai':'bubble-user'}" style="white-space:pre-wrap">${esc(content)}</div>${!isAI?`<div class="msg-av msg-av-user">أ</div>`:''}`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function appendIVTyping() {
+  const msgs = document.getElementById('iv-msgs');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'msg-row'; div.id = 'iv-typing';
+  div.innerHTML = `<div class="msg-av msg-av-ai">🤖</div><div class="bubble bubble-ai typing-bubble"><span class="typing-dot"></span><span class="typing-dot" style="animation-delay:.18s"></span><span class="typing-dot" style="animation-delay:.36s"></span></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function removeIVTyping() { document.getElementById('iv-typing')?.remove(); }
+
+/* ════════════════════════════════════════════
+   SMART INTERVIEW PAGE
+════════════════════════════════════════════ */
+function siModeObj() { return SI_MODES.find(m=>m.id===siMode) || SI_MODES[1]; }
+
+function renderSIPage() {
+  siPhase = 'setup'; siMessages = []; siQAsked = 0; siEvaluation = null;
+  siElapsed = 0; siInput = ''; siShowHint = false; clearInterval(siTimerRef);
+  document.getElementById('si-content').innerHTML = renderSISetup();
+}
+
+function renderSISetup() {
+  const mo = siModeObj();
+  return `<div class="si-root au">
+    <div class="si-hero">
+      <span class="si-hero-icon">🤖</span>
+      <h1 class="si-hero-title">محاكاة المقابلة الذكية</h1>
+      <p class="si-hero-sub">ذكاء اصطناعي يحاكي مُقابل توظيف حقيقي — يكشف إجاباتك الضعيفة، يطرح أسئلة متابعة ذكية، ويعطيك تقييماً مفصلاً في النهاية.</p>
+    </div>
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-body">
+        <div class="section-lbl">اختر شخصية المُقابل</div>
+        <div class="mode-grid">${SI_MODES.map(m => {
+          const sel = siMode === m.id;
+          return `<div class="mode-card ${sel?'mode-sel':''}" id="si-mode-${m.id}" onclick="selectSIMode('${m.id}')"
+            style="${sel?`--mc:${m.color};--mc-rgb:${m.colorRgb}`:''}">
+            <span class="mode-emoji">${m.emoji}</span>
+            <div class="mode-lbl">${m.label}</div>
+            <div class="mode-desc">${m.desc}</div>
+            ${sel?`<span class="mode-tick" style="background:${m.color}">✓</span>`:''}
+          </div>`;
+        }).join('')}</div>
+        <div class="section-lbl" style="margin-top:4px">التخصص الوظيفي</div>
+        <div class="sector-grid">${SI_SECTORS.map(s => `<button class="sector-btn ${siSpec===s?'sector-sel':''}" onclick="selectSISector('${s}')">${s}</button>`).join('')}</div>
+        <div id="si-custom-wrap" style="display:${siSpec==='أخرى'?'block':'none'};margin-top:8px">
+          <input type="text" style="width:100%;padding:12px 16px;border:1.5px solid var(--g4);border-radius:var(--r-sm);font-family:var(--font);font-size:14px" id="si-custom-input" placeholder="اكتب تخصصك هنا..." value="${esc(siCustomSpec)}" oninput="siCustomSpec=this.value;updateSIStartBtn()"/>
+        </div>
+      </div>
+    </div>
+    <div class="expect-grid">
+      ${[['🔍','كشف الإجابات الضعيفة','يلاحظ الإجابات العامة ويطلب التحديد'],['⚠️','كشف النسخ والتصنّع','يميّز الإجابات المحضّرة مسبقاً'],['🔗','أسئلة متابعة ذكية','يحفر عميقاً في إجاباتك تلقائياً'],['📊','تقييم شامل ومفصّل','4 معايير + توصية نهائية']].map(([icon,title,desc])=>`<div class="expect-card"><div class="expect-icon">${icon}</div><div class="expect-title">${title}</div><div class="expect-desc">${desc}</div></div>`).join('')}
+    </div>
+    <button class="start-btn" id="si-start-btn"
+      style="--mc:${mo.color};--mc-rgb:${mo.colorRgb};--mc-d:${mo.color}cc"
+      onclick="startSI()" ${!siSpec||siSpec==='أخرى'&&!siCustomSpec.trim()?'disabled':''}>
+      <span>${mo.emoji}</span> ابدأ المقابلة — ${mo.label} <span style="margin-right:auto">←</span>
+    </button>
+    <p class="disclaimer">مقابلة تجريبية • ${SI_MAX_Q} أسئلة • حوالي 10-15 دقيقة</p>
+  </div>`;
+}
+
+function selectSIMode(id) {
+  siMode = id;
+  document.getElementById('si-content').innerHTML = renderSISetup();
+}
+function selectSISector(s) {
+  siSpec = s;
+  document.querySelectorAll('.sector-btn').forEach(b => b.classList.toggle('sector-sel', b.textContent === s));
+  const wrap = document.getElementById('si-custom-wrap');
+  if (wrap) wrap.style.display = s === 'أخرى' ? 'block' : 'none';
+  updateSIStartBtn();
+}
+function updateSIStartBtn() {
+  const btn = document.getElementById('si-start-btn');
+  if (!btn) return;
+  btn.disabled = !siSpec || (siSpec === 'أخرى' && !siCustomSpec.trim());
+}
+
+function siSystemPrompt() {
+  const mo = siModeObj();
+  const spec = siSpec === 'أخرى' ? siCustomSpec : siSpec;
+  const persona = {
+    kind:'أنت مُقابل توظيف لطيف وداعم. تستخدم لغة دافئة ومشجعة. تعطي ملاحظات بنّاءة وتساعد المرشح على التعبير عن نفسه. لكنك لا تزال محترفاً وتطلب إجابات محددة.',
+    realistic:'أنت مُقابل توظيف محترف وواقعي. لا تتسامح مع الإجابات العامة أو الغامضة. تطلب أمثلة حقيقية وأرقاماً ونتائج ملموسة. أسلوبك مباشر ومحايد.',
+    strict:'أنت مُقابل توظيف صارم وخبير في اكتشاف الإجابات الضعيفة. تضغط على المرشح بأسئلة متابعة حادة. لا تقبل الإجابات المنسوخة أو المبتذلة. أسلوبك مهني وجاد ومباشر جداً.',
+  }[siMode];
+  return `${persona}\n\n**تخصص المرشح:** ${spec}\n**عدد الأسئلة:** ${SI_MAX_Q}\n\n**قواعد:**\n1. اطرح سؤالاً واحداً فقط في كل رسالة — لا أكثر.\n2. إذا كانت الإجابة عامة أو مبهمة، اكتب أولاً: 🔍 **ملاحظة:** ثم علّق على ضعف الإجابة، ثم اطلب توضيحاً.\n3. إذا بدت الإجابة منسوخة أو رسمية جداً، اكتب: ⚠️ **لاحظت** أن الإجابة تبدو معدّة مسبقاً.\n4. اطرح أسئلة متابعة ذكية بناءً على كل إجابة.\n5. بعد ${SI_MAX_Q} أسئلة فقط، اكتب: "🏁 انتهت المقابلة" ثم أعطِ تقييماً بهذه الصيغة حرفياً:\n\n---تقييم نهائي---\nالثقة: [0-100]\nالاحترافية: [0-100]\nقوة الإجابات: [0-100]\nنسبة القبول: [0-100]\nنقاط القوة: [اكتبها]\nنقاط الضعف: [اكتبها]\nالتوصية: [اقبل/مرشح جيد/يحتاج تطوير/لا ينصح]\nملاحظة ختامية: [جملة أو جملتين]\n---نهاية التقييم---\n\n**مهم:** الردود باللغة العربية الفصيحة. كن مختصراً وحادّاً.`;
+}
+
+async function startSI() {
+  if (!siSpec || (siSpec === 'أخرى' && !siCustomSpec.trim())) return;
+  requireKey(async () => {
+    siPhase = 'brief';
+    document.getElementById('si-content').innerHTML = renderSIBrief();
+    setTimeout(async () => {
+      siPhase = 'chat';
+      renderSIChat();
+      const openingMsg = [{role:'user',content:'ابدأ المقابلة الآن. قدّم نفسك بجملة واحدة واطرح السؤال الأول مباشرة بدون مقدمات طويلة.'}];
+      appendSITyping();
+      try {
+        const reply = await callClaudeHistory(siSystemPrompt(), openingMsg, 700);
+        removeTyping('si-typing');
+        siMessages = [{role:'assistant',content:reply}];
+        siQAsked = 1;
+        appendSIMsg('assistant', reply);
+        updateSIChatBar();
+      } catch(e) {
+        removeTyping('si-typing');
+        siMessages = [{role:'assistant',content:'⚠️ تعذّر الاتصال. تأكد من إعداد API key.'}];
+        appendSIMsg('assistant', '⚠️ تعذّر الاتصال. تأكد من إعداد API key.');
+      }
+    }, 2200);
+  });
+}
+
+function renderSIBrief() {
+  const mo = siModeObj();
+  const spec = siSpec === 'أخرى' ? siCustomSpec : siSpec;
+  return `<div class="brief-wrap au">
+    <div class="brief-orb" style="--mc:${mo.color}"></div>
+    <div class="brief-emoji">${mo.emoji}</div>
+    <h2 class="brief-title">استعد للمقابلة</h2>
+    <p class="brief-mode" style="color:${mo.color}">${mo.label}</p>
+    <p class="brief-spec">${esc(spec)}</p>
+    <div class="brief-tips">
+      ${['أجب بأسلوبك الشخصي وليس بأسلوب رسمي جاهز','استخدم أمثلة حقيقية من تجربتك','لا تتسرع — فكّر ثم اجب'].map((t,i)=>`<div class="brief-tip"><span class="brief-tip-n" style="background:${mo.color}">${i+1}</span>${t}</div>`).join('')}
+    </div>
+    <div class="brief-progress"><div class="brief-bar" style="--mc:${mo.color}"></div></div>
+    <p class="brief-wait">جاري تحضير المقابلة...</p>
+  </div>`;
+}
+
+function renderSIChat() {
+  const mo = siModeObj();
+  const spec = siSpec === 'أخرى' ? siCustomSpec : siSpec;
+  document.getElementById('si-content').innerHTML = `<div class="si-chat-root au">
+    <div class="si-chat-bar">
+      <div class="si-bar-left">
+        <div class="si-av" style="border-color:${mo.color};background:${mo.color}22">${mo.emoji}</div>
+        <div>
+          <div class="si-av-name">مُقابل AI • ${mo.label}</div>
+          <div class="si-av-spec">${esc(spec)}</div>
+        </div>
+      </div>
+      <div class="si-bar-right">
+        <div class="q-prog">
+          <div class="q-prog-lbl" id="si-q-lbl">السؤال ${siQAsked}/${SI_MAX_Q}</div>
+          <div class="q-prog-track"><div class="q-prog-fill" id="si-q-fill" style="width:${(siQAsked/SI_MAX_Q)*100}%;background:${mo.color}"></div></div>
+        </div>
+        <div class="timer" id="si-timer">${fmtTime(siElapsed)}</div>
+        <button class="end-btn" onclick="resetSI()">✕ إنهاء</button>
+      </div>
+    </div>
+    <div class="si-msgs" id="si-msgs"></div>
+    <div id="si-hint-box" style="display:none" class="hint-box">💡 جاوب بمثال حقيقي: "في شركة X، واجهت مشكلة Y، فقمت بـ Z وحققت نتيجة W."</div>
+    <div class="si-input-area">
+      <button class="hint-btn" onclick="toggleSIHint()" title="نصيحة">💡</button>
+      <textarea class="chat-textarea" id="si-textarea" rows="2" placeholder="اكتب إجابتك هنا... (Enter للإرسال)"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendSI()}"></textarea>
+      <button class="send-btn" id="si-send-btn" onclick="sendSI()" disabled style="background:linear-gradient(135deg,${mo.color},${mo.color}cc)">إرسال ←</button>
+    </div>
+  </div>`;
+  // Wire textarea for send-btn enable
+  document.getElementById('si-textarea').addEventListener('input', function(){
+    const btn = document.getElementById('si-send-btn');
+    if (btn) btn.disabled = !this.value.trim() || siLoading;
+  });
+  // Start timer
+  clearInterval(siTimerRef);
+  siTimerRef = setInterval(() => {
+    siElapsed++;
+    const t = document.getElementById('si-timer');
+    if (t) t.textContent = fmtTime(siElapsed);
+  }, 1000);
+}
+
+function updateSIChatBar() {
+  const mo = siModeObj();
+  const lbl = document.getElementById('si-q-lbl');
+  const fill = document.getElementById('si-q-fill');
+  if (lbl) lbl.textContent = `السؤال ${siQAsked}/${SI_MAX_Q}`;
+  if (fill) { fill.style.width = `${(siQAsked/SI_MAX_Q)*100}%`; fill.style.background = mo.color; }
+}
+
+function toggleSIHint() {
+  siShowHint = !siShowHint;
+  const box = document.getElementById('si-hint-box');
+  if (box) box.style.display = siShowHint ? 'block' : 'none';
+}
+
+function appendSIMsg(role, content) {
+  const msgs = document.getElementById('si-msgs');
+  if (!msgs) return;
+  const mo = siModeObj();
+  const isAI = role === 'assistant';
+  const div = document.createElement('div');
+  div.className = `si-msg ${isAI?'':'user'} au`;
+  // Render notices
+  const rendered = renderSIContent(content);
+  div.innerHTML = isAI
+    ? `<div class="si-av-small" style="border-color:${mo.color};background:${mo.color}22">${mo.emoji}</div><div class="si-bubble si-bubble-ai">${rendered}</div>`
+    : `<div class="si-bubble si-bubble-user" style="white-space:pre-wrap">${esc(content)}</div><div class="si-av-small" style="border-color:var(--teal);background:var(--teal)22;color:var(--teal);font-weight:800">أ</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function renderSIContent(text) {
+  const parts = text.split(/(🔍 \*\*ملاحظة:\*\*[^\n]*|⚠️ \*\*لاحظت\*\*[^\n]*)/g);
+  return parts.map(part => {
+    if (part.startsWith('🔍') || part.startsWith('⚠️')) {
+      const isWarn = part.startsWith('⚠️');
+      const cls = isWarn ? 'notice-warn' : 'notice-info';
+      return `<span class="${cls}">${esc(part.replace(/\*\*/g,''))}</span>`;
+    }
+    return `<span style="white-space:pre-wrap">${esc(part.replace(/\*\*/g,''))}</span>`;
+  }).join('');
+}
+
+function appendSITyping() {
+  const msgs = document.getElementById('si-msgs');
+  if (!msgs) return;
+  const mo = siModeObj();
+  const div = document.createElement('div');
+  div.className = 'si-msg'; div.id = 'si-typing';
+  div.innerHTML = `<div class="si-av-small" style="border-color:${mo.color};background:${mo.color}22">${mo.emoji}</div><div class="si-bubble si-bubble-ai typing-bubble"><span class="typing-dot"></span><span class="typing-dot" style="animation-delay:.18s"></span><span class="typing-dot" style="animation-delay:.36s"></span></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function removeTyping(id) { document.getElementById(id)?.remove(); }
+
+async function sendSI() {
+  const ta = document.getElementById('si-textarea');
+  if (!ta || !ta.value.trim() || siLoading) return;
+  const text = ta.value.trim(); ta.value = '';
+  siShowHint = false;
+  const hintBox = document.getElementById('si-hint-box');
+  if (hintBox) hintBox.style.display = 'none';
+  document.getElementById('si-send-btn').disabled = true;
+  siMessages.push({role:'user',content:text});
+  appendSIMsg('user', text);
+  siLoading = true;
+  appendSITyping();
+  try {
+    const reply = await callClaudeHistory(siSystemPrompt(), siMessages, 700);
+    removeTyping('si-typing');
+    siMessages.push({role:'assistant',content:reply});
+    appendSIMsg('assistant', reply);
+    if (reply.includes('انتهت المقابلة')) {
+      clearInterval(siTimerRef);
+      const ev = parseSIEvaluation(reply);
+      siEvaluation = ev;
+      setTimeout(() => { siPhase = 'result'; renderSIResult(); }, 800);
+    } else {
+      siQAsked = Math.min(siQAsked + 1, SI_MAX_Q);
+      updateSIChatBar();
+    }
+  } catch(e) {
+    removeTyping('si-typing');
+    appendSIMsg('assistant', '⚠️ حدث خطأ في الاتصال. حاول مجدداً.');
+  } finally {
+    siLoading = false;
+    const btn = document.getElementById('si-send-btn');
+    if (btn) btn.disabled = false;
+  }
+}
+
+function parseSIEvaluation(text) {
+  const section = text.match(/---تقييم نهائي---([\s\S]*?)---نهاية التقييم---/);
+  if (!section) return null;
+  const block = section[1];
+  const get = key => { const m = block.match(new RegExp(`${key}:\\s*([^\\n]+)`)); return m ? m[1].trim() : ''; };
+  const num = key => { const v = parseInt(get(key)); return isNaN(v)?70:Math.min(100,Math.max(0,v)); };
+  return {
+    confidence:num('الثقة'), professionalism:num('الاحترافية'),
+    answerStrength:num('قوة الإجابات'), acceptance:num('نسبة القبول'),
+    strengths:get('نقاط القوة'), weaknesses:get('نقاط الضعف'),
+    recommendation:get('التوصية'), note:get('ملاحظة ختامية'),
+  };
+}
+
+function renderSIResult() {
+  const ev = siEvaluation;
+  if (!ev) { renderSIPage(); return; }
+  const mo = siModeObj();
+  const spec = siSpec === 'أخرى' ? siCustomSpec : siSpec;
+  const rec = ev.recommendation;
+  const recColor = rec.includes('اقبل')?'#10b981':rec.includes('جيد')?'#f59e0b':'#ef4444';
+  const gaugeHtml = (value, label, color) => {
+    const r=36, circ=2*Math.PI*r, offset=circ-(value/100)*circ;
+    return `<div class="gauge">
+      <svg width="90" height="90" viewBox="0 0 90 90">
+        <circle cx="45" cy="45" r="${r}" fill="none" stroke="rgba(0,0,0,.08)" stroke-width="7"/>
+        <circle cx="45" cy="45" r="${r}" fill="none" stroke="${color}" stroke-width="7"
+          stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}"
+          stroke-linecap="round" transform="rotate(-90 45 45)"
+          style="transition:stroke-dashoffset 1.2s ease"/>
+        <text x="45" y="49" text-anchor="middle" fill="#1a1a2e" font-size="14" font-weight="800" font-family="Cairo,sans-serif">${value}%</text>
+      </svg>
+      <div class="gauge-lbl">${label}</div>
+    </div>`;
+  };
+  const transcriptMsgs = siMessages.filter(m=>!m.content.includes('---تقييم نهائي---'));
+  document.getElementById('si-content').innerHTML = `<div class="result-wrap au">
+    <div class="result-header">
+      <span class="result-icon">📊</span>
+      <h2 class="result-title">التقييم النهائي</h2>
+      <p class="result-sub">${esc(spec)} • ${mo.label} • ${fmtTime(siElapsed)}</p>
+      <div class="rec-badge" style="background:${recColor}22;border:1px solid ${recColor}55;color:${recColor}">${esc(rec)}</div>
+    </div>
+    <div class="gauges-row">
+      ${gaugeHtml(ev.confidence,'الثقة','#c9a84c')}
+      ${gaugeHtml(ev.professionalism,'الاحترافية','#1a9e8f')}
+      ${gaugeHtml(ev.answerStrength,'قوة الإجابات','#6366f1')}
+      ${gaugeHtml(ev.acceptance,'نسبة القبول',recColor)}
+    </div>
+    <div class="main-bar-wrap">
+      <div class="main-bar-labels"><span>نسبة القبول الإجمالية</span><span style="color:${recColor};font-weight:800">${ev.acceptance}%</span></div>
+      <div class="main-bar-track"><div class="main-bar-fill" style="width:${ev.acceptance}%;background:${recColor}"></div></div>
+    </div>
+    <div class="sw-grid">
+      <div class="sw-card" style="border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.05)"><div class="sw-title" style="color:#10b981">✅ نقاط القوة</div><p class="sw-text">${esc(ev.strengths)}</p></div>
+      <div class="sw-card" style="border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.05)"><div class="sw-title" style="color:#ef4444">⚠️ نقاط الضعف</div><p class="sw-text">${esc(ev.weaknesses)}</p></div>
+    </div>
+    ${ev.note?`<div class="note-box"><span class="note-icon">💬</span><p class="note-text">${esc(ev.note)}</p></div>`:''}
+    <details class="transcript">
+      <summary class="transcript summary">📝 عرض نص المقابلة كاملاً</summary>
+      <div class="transcript-body">
+        ${transcriptMsgs.map(m=>`<div class="tr-msg"><div class="tr-role">${m.role==='user'?'👤 أنت':`${mo.emoji} المُقابل`}</div><p class="tr-text">${esc(m.content)}</p></div>`).join('')}
+      </div>
+    </details>
+    <div class="result-btns">
+      <button class="btn btn-primary" onclick="resetSI()" style="background:linear-gradient(135deg,${mo.color},${mo.color}cc)">🔄 مقابلة جديدة</button>
+      <button class="btn btn-teal" onclick="showPage('cv')">📄 إنشاء CV احترافي</button>
+    </div>
+  </div>`;
+}
+
+function resetSI() {
+  clearInterval(siTimerRef);
+  siPhase = 'setup'; siMessages = []; siQAsked = 0; siEvaluation = null;
+  siElapsed = 0; siInput = ''; siLoading = false;
+  document.getElementById('si-content').innerHTML = renderSISetup();
+}
+
+/* ════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════ */
+// Nav map fix
+document.getElementById('nav-home').id = 'nav-home';
+// Check stored key
+if (!API_KEY) {
+  // Will prompt when user tries to use AI features
+}
+// Show home initially (already shown)
+</script>
+</body>
+</html>
