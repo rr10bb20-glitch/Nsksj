@@ -617,11 +617,11 @@ footer span{color:var(--gold)}
 <div id="key-modal">
   <div class="key-box">
     <span class="key-icon">🔑</span>
-    <h2 class="key-title">مفتاح Anthropic API</h2>
-    <p class="key-sub">لاستخدام ميزات الذكاء الاصطناعي، أدخل مفتاح Anthropic API الخاص بك. يُحفظ فقط في متصفحك ولا يُرسَل لأي خادم آخر.</p>
-    <input class="key-input" type="password" id="api-key-input" placeholder="sk-ant-..."/>
+    <h2 class="key-title">مفتاح Groq API</h2>
+    <p class="key-sub">لاستخدام ميزات الذكاء الاصطناعي، أدخل مفتاح Groq API الخاص بك. يُحفظ فقط في متصفحك ولا يُرسَل لأي خادم آخر.</p>
+    <input class="key-input" type="password" id="api-key-input" placeholder="gsk_..."/>
     <button class="btn btn-primary btn-full" onclick="saveApiKey()">حفظ والمتابعة</button>
-    <p class="key-note">احصل على مفتاحك من <a href="https://console.anthropic.com" target="_blank" style="color:var(--gold)">console.anthropic.com</a> • يُخزَّن محلياً في المتصفح فقط</p>
+    <p class="key-note">احصل على مفتاحك من <a href="https://console.groq.com" target="_blank" style="color:var(--gold)">console.groq.com</a> • يُخزَّن محلياً في المتصفح فقط</p>
   </div>
 </div>
 
@@ -730,46 +730,46 @@ function saveApiKey() {
 
 async function callClaude(system, user, maxTokens=1200) {
   if (!API_KEY) throw new Error('API key غير مضبوط');
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method:'POST',
     headers:{
       'Content-Type':'application/json',
-      'x-api-key':API_KEY,
-      'anthropic-version':'2023-06-01',
-      'anthropic-dangerous-direct-browser-access':'true',
+      'Authorization':'Bearer '+API_KEY,
     },
     body:JSON.stringify({
-      model:'claude-sonnet-4-20250514',
+      model:'llama-3.3-70b-versatile',
       max_tokens:maxTokens,
-      system,
-      messages:[{role:'user',content:user}],
+      messages:[
+        {role:'system',content:system},
+        {role:'user',content:user}
+      ],
     }),
   });
   if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e?.error?.message || `خطأ ${res.status}`); }
   const d = await res.json();
-  return d.content?.map(b=>b.text||'').join('') || '';
+  return d.choices?.[0]?.message?.content || '';
 }
 
 async function callClaudeHistory(system, history, maxTokens=700) {
   if (!API_KEY) throw new Error('API key غير مضبوط');
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method:'POST',
     headers:{
       'Content-Type':'application/json',
-      'x-api-key':API_KEY,
-      'anthropic-version':'2023-06-01',
-      'anthropic-dangerous-direct-browser-access':'true',
+      'Authorization':'Bearer '+API_KEY,
     },
     body:JSON.stringify({
-      model:'claude-sonnet-4-20250514',
+      model:'llama-3.3-70b-versatile',
       max_tokens:maxTokens,
-      system,
-      messages:history.map(m=>({role:m.role,content:m.content})),
+      messages:[
+        {role:'system',content:system},
+        ...history.map(m=>({role:m.role,content:m.content}))
+      ],
     }),
   });
   if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e?.error?.message || `خطأ ${res.status}`); }
   const d = await res.json();
-  return d.content?.map(b=>b.text||'').join('') || '';
+  return d.choices?.[0]?.message?.content || '';
 }
 
 function fmtTime(s) {
